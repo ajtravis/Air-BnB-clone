@@ -1,4 +1,4 @@
-# `Air BnB Clone`
+# `AirBnB Clone`
 
 ## Database Schema Design
 
