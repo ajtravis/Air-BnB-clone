@@ -26,6 +26,8 @@ router.get('/current', async (req, res) => {
     return res.json(spots)
 });
 
+
+
 // create a spot
 router.post('/', async (req, res) => {
    restoreUser;
@@ -60,5 +62,21 @@ router.put('/:spotId', async (req, res) => {
     return res.json(spot)
 })
 
+// delete a spot
+router.delete('/:spotId', async (req, res) => {
+    const split = req.url.split('/')
+    const spotId = split[split.length - 1];
+    const spot = await Spot.findByPk(spotId);
+    await spot.destroy();
+    res.message = "successfully deleted";
+    res.statusCode = 200;
+    console.log(res.body)
+    return res.json(
+        {
+        "message": "Successfully deleted",
+        "statusCode": 200
+      }
+      )
+})
 
 module.exports = router;
