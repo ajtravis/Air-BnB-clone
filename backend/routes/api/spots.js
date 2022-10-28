@@ -36,6 +36,7 @@ router.post('/', async (req, res) => {
     return res.json(spot)
 })
 
+// add spot image
 router.post('/:spotId/images', async (req, res) => {
     const split = req.url.split('/')
     const id = split[split.length - 2];
@@ -43,5 +44,11 @@ router.post('/:spotId/images', async (req, res) => {
     const image = await SpotImage.create({spotId: id, url, preview})
     return res.json(image)
 })
+
+// edit a spot
+router.put('/:spotId', async (req, res) => {
+
+})
+
 
 module.exports = router;
