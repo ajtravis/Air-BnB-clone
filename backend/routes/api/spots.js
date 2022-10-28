@@ -47,7 +47,17 @@ router.post('/:spotId/images', async (req, res) => {
 
 // edit a spot
 router.put('/:spotId', async (req, res) => {
-
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const split = req.url.split('/')
+    const spotId = split[split.length - 1];
+    const spot = await Spot.findOne(
+        {
+            where: {id: spotId}
+        }
+    );
+    spot.set({ address, city, state, country, lat, lng, name, description, price })
+    await spot.save();
+    return res.json(spot)
 })
 
 
