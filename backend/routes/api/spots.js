@@ -1,7 +1,7 @@
 const express = require('express')
 
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
-const { User, Spot } = require('../../db/models');
+const { User, Spot, SpotImage } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require("sequelize");
@@ -34,6 +34,14 @@ router.post('/', async (req, res) => {
    const spot = await Spot.create({ ownerId: user.id, address, city, state, country, lat, lng, name, description, price })
 
     return res.json(spot)
+})
+
+router.post('/:spotId/images', async (req, res) => {
+    const split = req.url.split('/')
+    const id = split[split.length - 2];
+    const { url, preview } = req.body;
+    const image = await SpotImage.create({spotId: id, url, preview})
+    return res.json(image)
 })
 
 module.exports = router;
