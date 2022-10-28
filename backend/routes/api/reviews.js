@@ -8,6 +8,7 @@ const { Op } = require("sequelize");
 
 const router = express.Router();
 
+// get reviews made by current user
 router.get('/current', async (req, res) => {
     const { user } = req;
     const reviews = await Review.findAll({
@@ -15,5 +16,7 @@ router.get('/current', async (req, res) => {
     });
     res.json(reviews)
 })
+
+
 
 module.exports = router;

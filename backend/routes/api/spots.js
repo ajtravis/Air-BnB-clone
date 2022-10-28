@@ -1,7 +1,7 @@
 const express = require('express')
 
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
-const { User, Spot, SpotImage } = require('../../db/models');
+const { User, Spot, SpotImage, Review } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require("sequelize");
@@ -83,6 +83,16 @@ router.delete('/:spotId', async (req, res) => {
         "statusCode": 200
       }
       )
+});
+
+// get reviews by a spot's id
+router.get('/:spotId/reviews', async (req, res) => {
+    const split = req.url.split('/')
+    const spotId = split[split.length - 2];
+    const reviews = await Review.findAll({
+        where: {spotId: spotId}
+    })
+    return res.json(reviews)
 })
 
 module.exports = router;
