@@ -26,7 +26,13 @@ router.get('/current', async (req, res) => {
     return res.json(spots)
 });
 
-
+// get spot details by id
+router.get('/:spotId', async (req, res) => {
+    const split = req.url.split('/')
+    const spotId = split[split.length - 1];
+    const spot = await Spot.findByPk(spotId);
+    return res.json(spot)
+})
 
 // create a spot
 router.post('/', async (req, res) => {
