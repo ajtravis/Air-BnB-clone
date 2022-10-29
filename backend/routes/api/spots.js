@@ -105,4 +105,6 @@ router.post('/:spotId/reviews', async (req, res) => {
     return res.json(newReview)
 })
 
+
+
 module.exports = router;

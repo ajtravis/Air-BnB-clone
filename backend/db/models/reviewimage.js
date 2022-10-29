@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     url: {
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING
     }
   }, {
     sequelize,
