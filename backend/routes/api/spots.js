@@ -115,4 +115,19 @@ router.get('/:spotId/bookings', async (req, res) => {
     return res.json(bookings)
 })
 
+// create booking based on spot id
+router.post('/:spotId/bookings', async (req, res) => {
+    const split = req.url.split('/');
+    const spotId = split[split.length - 2];
+    const { startDate, endDate } = req.body;
+    const { user } = req;
+    const newBooking = await Booking.create({
+        spotId: spotId,
+        userId: user.id,
+        startDate,
+        endDate
+    })
+    return res.json(newBooking)
+})
+
 module.exports = router;
