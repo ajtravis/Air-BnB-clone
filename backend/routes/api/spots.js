@@ -1,7 +1,7 @@
 const express = require('express')
 
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
-const { User, Spot, SpotImage, Review } = require('../../db/models');
+const { User, Spot, SpotImage, Review, Booking } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require("sequelize");
@@ -104,6 +104,15 @@ router.post('/:spotId/reviews', async (req, res) => {
     return res.json(newReview)
 })
 
-
+// get bookings based on spot id
+router.get('/:spotId/bookings', async (req, res) => {
+    const split = req.url.split('/')
+    const spotId = split[split.length - 2];
+    const { user } = req;
+    const bookings = await Booking.findAll({
+        where: {spotId: spotId}
+    })
+    return res.json(bookings)
+})
 
 module.exports = router;
