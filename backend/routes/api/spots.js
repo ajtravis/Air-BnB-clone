@@ -95,4 +95,14 @@ router.get('/:spotId/reviews', async (req, res) => {
     return res.json(reviews)
 })
 
+// create a review based on spot id
+router.post('/:spotId/reviews', async (req, res) => {
+    const { review, stars } = req.body
+    const { user } = req;
+    const split = req.url.split('/')
+    const spotId = split[split.length - 2];
+    const newReview = await Review.create({userId: user.id, spotId: spotId, review, stars})
+    return res.json(newReview)
+})
+
 module.exports = router;
