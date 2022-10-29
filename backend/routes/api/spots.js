@@ -76,7 +76,6 @@ router.delete('/:spotId', async (req, res) => {
     await spot.destroy();
     res.message = "successfully deleted";
     res.statusCode = 200;
-    console.log(res.body)
     return res.json(
         {
         "message": "Successfully deleted",
