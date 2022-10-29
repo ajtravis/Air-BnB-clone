@@ -25,4 +25,14 @@ router.post('/:reviewId/images', async (req, res) => {
     return res.json(reviewImage);
 })
 
+router.put('/:reviewId', async (req, res) => {
+    const split = req.url.split('/')
+    const reviewId = split[split.length - 1];
+    const { review, stars } = req.body;
+    const rev = await Review.findByPk(reviewId);
+    rev.set({review, stars});
+    rev.save();
+    return res.json(rev)
+})
+
 module.exports = router;
