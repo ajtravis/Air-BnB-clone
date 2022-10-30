@@ -27,6 +27,21 @@ router.post(
     async (req, res, next) => {
       const { credential, password } = req.body;
 
+      if(!credential) {
+        const err = new Error("Validation error");
+        err.status = 400;
+        err.errors = ['Email or username is required'];
+        return next(err)
+      }
+
+      if(!password) {
+        const err = new Error("Validation error");
+        err.status = 400;
+        err.errors = ['Password is required'];
+        return next(err)
+      }
+
+
       const user = await User.login({ credential, password });
 
       if (!user) {
