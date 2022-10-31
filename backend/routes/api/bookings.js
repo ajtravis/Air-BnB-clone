@@ -12,7 +12,10 @@ const router = express.Router();
 router.get('/current', async (req, res) => {
     const { user } = req;
     const bookings = await Booking.findAll({
-        where: {userId: user.id}
+        where: {userId: user.id},
+        include: {
+            model: Spot,
+            attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price']}
     })
     return res.json(bookings)
 })

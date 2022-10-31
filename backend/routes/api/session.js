@@ -27,17 +27,17 @@ router.post(
     async (req, res, next) => {
       const { credential, password } = req.body;
 
-      if(!credential) {
-        const err = new Error("Email or username is required");
-        err.status = 400;
-        return next(err)
-      }
+      // if(!credential) {
+      //   const err = new Error("Email or username is required");
+      //   err.status = 400;
+      //   return next(err)
+      // }
 
-      if(!password) {
-        const err = new Error("Password is required");
-        err.status = 400;
-        return next(err)
-      }
+      // if(!password) {
+      //   const err = new Error("Password is required");
+      //   err.status = 400;
+      //   return next(err)
+      // }
 
 
       const user = await User.login({ credential, password });
