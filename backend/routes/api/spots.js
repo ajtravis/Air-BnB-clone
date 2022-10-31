@@ -27,11 +27,18 @@ router.get('/current', async (req, res) => {
 });
 
 // get spot details by id
-router.get('/:spotId', async (req, res) => {
+router.get('/:spotId', async (req, res, next) => {
     const split = req.url.split('/')
     const spotId = split[split.length - 1];
     const spot = await Spot.findByPk(spotId);
-    return res.json(spot)
+
+    if(!spot) {
+        const err = new Error("Spot couldn't be found")
+        err.status = 404
+        next(err)
+    } else{return res.json(spot)}
+
+
 })
 
 // create a spot
