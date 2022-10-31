@@ -51,6 +51,8 @@ const validateReview = [
     handleValidationErrors
 ]
 
+
+
 // get all spots
 router.get('/', async (req, res) => {
     const spots = await Spot.findAll()
@@ -122,7 +124,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 })
 
 // edit a spot
-router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
+router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
     const split = req.url.split('/')
     const spotId = split[split.length - 1];
@@ -131,16 +133,26 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
             where: {id: spotId}
         }
     );
+    if(!spot){
+        const err = new Error("Spot couldn't be found")
+        err.status = 404
+        next(err)
+    }
     spot.set({ address, city, state, country, lat, lng, name, description, price })
     await spot.save();
     return res.json(spot)
 })
 
 // delete a spot
-router.delete('/:spotId', requireAuth, async (req, res) => {
+router.delete('/:spotId', requireAuth, async (req, res, next) => {
     const split = req.url.split('/')
     const spotId = split[split.length - 1];
     const spot = await Spot.findByPk(spotId);
+    if(!spot){
+        const err = new Error("Spot couldn't be found")
+        err.status = 404
+        next(err)
+    }
     await spot.destroy();
     res.message = "successfully deleted";
     res.status = 200;
@@ -193,29 +205,57 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
 })
 
 // get bookings based on spot id
-router.get('/:spotId/bookings', async (req, res) => {
+router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
     const split = req.url.split('/')
     const spotId = split[split.length - 2];
     const { user } = req;
-    const bookings = await Booking.findAll({
-        where: {spotId: spotId}
+    const spot = await Spot.findByPk(spotId)
+    if(!spot){
+        const err = new Error("Spot couldn't be found")
+        err.status = 404
+        next(err)
+    }
+    if(spot.ownerId !== user.id){
+        const bookings = await Booking.findAll({
+            where: {spotId: spotId},
+            attributes: ['spotId', 'startDate', 'endDate']
+        })
+        return res.json({"Bookings": bookings})
+    }else {
+        const bookings = await Booking.findAll({
+            where: {spotId: spotId},
+            include: {model: User}
     })
-    return res.json(bookings)
+    return res.json({"Bookings": bookings})}
 })
 
 // create booking based on spot id
-router.post('/:spotId/bookings', async (req, res) => {
+router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     const split = req.url.split('/');
     const spotId = split[split.length - 2];
     const { startDate, endDate } = req.body;
     const { user } = req;
+    if(startDate >= endDate) {
+        const err = new Error("endDate cannot be on or before startDate")
+        err.status = 400;
+        next(err)
+    }
+    const spot = await Spot.findByPk(spotId)
+    if(!spot){
+        const err = new Error("Spot couldn't be found")
+        err.status = 404
+        next(err)
+    }
     const newBooking = await Booking.create({
         spotId: spotId,
         userId: user.id,
         startDate,
         endDate
     })
-    return res.json(newBooking)
+    return res.json({
+        "startDate": newBooking.startDate,
+        "endDate": newBooking.endDate
+})
 })
 
 module.exports = router;

@@ -9,7 +9,7 @@ const { Op } = require("sequelize");
 const router = express.Router();
 
 // get bookings of current user
-router.get('/current', async (req, res) => {
+router.get('/current', requireAuth, async (req, res) => {
     const { user } = req;
     const bookings = await Booking.findAll({
         where: {userId: user.id},
@@ -20,5 +20,37 @@ router.get('/current', async (req, res) => {
     return res.json(bookings)
 })
 
+router.put('/:bookingId', requireAuth, async (req, res, next) => {
+    const split = req.url.split('/')
+    const bookingId = split[split.length - 1];
+    const { startDate, endDate } = req.body;
+    const booking = await Booking.findByPk(bookingId);
+    if(!booking){
+        const err = new Error("Booking couldn't be found")
+        err.status = 404;
+        next(err)
+    }
+    booking.set({startDate, endDate})
+    booking.save();
+    return res.json(booking)
+})
+
+router.delete('/:bookingId', requireAuth, async (req, res, next) => {
+    const split = req.url.split('/')
+    const bookingId = split[split.length - 1];
+    const booking = await Booking.findByPk(bookingId);
+    if(!booking){
+        const err = new Error("Booking couldn't be found")
+        err.status = 404;
+        next(err)
+    }
+    await booking.destroy();
+    res.message = "successfully deleted";
+    res.status = 200;
+    return res.json({
+        "message": res.message,
+        "statusCode": res.status
+    })
+})
 
 module.exports = router;

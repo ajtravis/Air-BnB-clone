@@ -9,14 +9,21 @@ const { Op } = require("sequelize");
 const router = express.Router();
 
 // delete review image by id
-router.delete('/:imageId', async (req, res) => {
+router.delete('/:imageId', async (req, res, next) => {
     const split = req.url.split('/')
     const imageId = split[split.length - 1];
     const reviewImage = await ReviewImage.findByPk(imageId);
+    if(!reviewImage){
+      const err = new Error("Review Image couldn't be found")
+      err.status = 404
+      next(err)
+  }
     await reviewImage.destroy();
+    res.message = "Successfully deleted";
+    res.status = 200;
     return res.json({
-        "message": "Successfully deleted",
-        "statusCode": 200
+        "message": res.message,
+        "statusCode": res.status
       })
 })
 
