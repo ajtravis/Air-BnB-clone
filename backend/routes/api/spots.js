@@ -75,7 +75,12 @@ router.get('/current', async (req, res) => {
 router.get('/:spotId', async (req, res, next) => {
     const split = req.url.split('/')
     const spotId = split[split.length - 1];
-    const spot = await Spot.findByPk(spotId);
+    const spot = await Spot.findByPk(spotId, {
+        include: [{
+            model: User,
+            as: "Owner"
+        }]
+    });
 
     if(!spot) {
         const err = new Error("Spot couldn't be found")
@@ -103,15 +108,12 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     const split = req.url.split('/')
     const id = split[split.length - 2];
 
-    const { user } = req.body;
-
     const spot = await Spot.findByPk(id);
     if(!spot) {
         const err = new Error("Spot couldn't be found")
         err.status = 404
         next(err)
     }
-
 
     const { url, preview } = req.body;
     const image = await SpotImage.create({spotId: id, url, preview})
