@@ -28,16 +28,14 @@ router.post(
       const { credential, password } = req.body;
 
       if(!credential) {
-        const err = new Error("Validation error");
+        const err = new Error("Email or username is required");
         err.status = 400;
-        err.errors = ['Email or username is required'];
         return next(err)
       }
 
       if(!password) {
-        const err = new Error("Validation error");
+        const err = new Error("Password is required");
         err.status = 400;
-        err.errors = ['Password is required'];
         return next(err)
       }
 
