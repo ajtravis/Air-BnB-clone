@@ -1,7 +1,7 @@
 const express = require('express')
 
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
-const { User, Spot, SpotImage, Review, Booking } = require('../../db/models');
+const { User, Spot, SpotImage, Review, Booking, sequelize } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require("sequelize");
@@ -55,8 +55,28 @@ const validateReview = [
 
 // get all spots
 router.get('/', async (req, res) => {
-    const spots = await Spot.findAll()
-    return res.json(spots)
+    const spots = await Spot.findAll({
+        attributes: {
+            include: [
+                [
+                    sequelize.fn("AVG", sequelize.col("Reviews.stars")),
+                "avgRating"
+                ],
+                [sequelize.col("SpotImages.url"), 'previewImage']
+            ],
+        },
+        include: [{
+            model: Review,
+            attributes: []
+        },
+        {
+            model: SpotImage,
+            attributes: []
+        }
+    ],
+    })
+    const result = {"Spots": spots}
+    return res.json(result)
 });
 
 // get spots for current user
@@ -64,11 +84,30 @@ router.get('/current', async (req, res) => {
     restoreUser;
     const { user } = req;
     const spots = await Spot.findAll({
+        attributes: {
+            include: [
+                [
+                    sequelize.fn("AVG", sequelize.col("Reviews.stars")),
+                "avgRating"
+                ],
+                [sequelize.col("SpotImages.url"), 'previewImage']
+            ],
+        },
+        include: [{
+            model: Review,
+            attributes: []
+        },
+        {
+            model: SpotImage,
+            attributes: []
+        }
+    ],
         where: {
             ownerId: user.id
         }
     })
-    return res.json(spots)
+    const result = {"Spots": spots}
+    return res.json(result)
 });
 
 // get spot details by id
