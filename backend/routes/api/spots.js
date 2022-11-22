@@ -74,6 +74,7 @@ router.get('/', async (req, res) => {
             attributes: []
         }
     ],
+    group: 'Spot.id'
     })
     const result = {"Spots": spots}
     return res.json(result)
@@ -104,7 +105,8 @@ router.get('/current', async (req, res) => {
     ],
         where: {
             ownerId: user.id
-        }
+        },
+        group: 'Spot.id'
     })
     const result = {"Spots": spots}
     return res.json(result)
@@ -112,15 +114,52 @@ router.get('/current', async (req, res) => {
 
 // get spot details by id
 router.get('/:spotId', async (req, res, next) => {
-    const split = req.url.split('/')
-    const spotId = split[split.length - 1];
-    const spot = await Spot.findByPk(spotId);
+
+    const spotId = req.params.spotId
+    const spot = await Spot.findByPk(spotId,
+        {
+            attributes: {
+                include: [
+                    [
+                        sequelize.fn("AVG", sequelize.col("Reviews.stars")),
+                    "avgStarRating"
+                    ],
+                    [
+                        sequelize.fn('count', sequelize.col("Reviews.id")),
+                    "numReviews"
+                    ],
+                ],
+            },
+            include: [{
+                model: Review,
+                attributes: []
+            },
+            {
+                model: SpotImage,
+                attributes: ['id', 'url', 'preview']
+            },
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName'],
+                as: 'Owner'
+            }
+        ],
+        group: 'Spot.id'
+        });
+
+        // const cnt = await Review.count({
+        //     where: {
+        //         spotId: spot.id
+        //     }
+        // })
 
     if(!spot) {
         const err = new Error("Spot couldn't be found")
         err.status = 404
         next(err)
-    } else{return res.json(spot)}
+    } else{
+        return res.json(spot)
+    }
 
 
 })
@@ -132,7 +171,7 @@ router.post('/', requireAuth, validateSpot, async (req, res) => {
 
 
    const spot = await Spot.create({ ownerId: user.id, address, city, state, country, lat, lng, name, description, price })
-
+    
    res.statusCode = 201;
    return res.json(spot)
 })
