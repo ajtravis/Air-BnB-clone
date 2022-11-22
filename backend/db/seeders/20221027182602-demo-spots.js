@@ -1,19 +1,15 @@
 'use strict';
 
-/** @type {import('sequelize-cli').Migration} */
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
+
+// /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-     *
-    */
-     return queryInterface.bulkInsert('Spots', [
+  up: async (queryInterface, Sequelize) => {
+    options.tableName = 'Spots';
+    return queryInterface.bulkInsert(options, [
       {
         ownerId: 1,
         address: '555 Electric Ave',
@@ -65,15 +61,10 @@ module.exports = {
     ], {});
   },
 
-  async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+  down: async (queryInterface, Sequelize) => {
+    options.tableName = 'Spots';
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete('Spots', {
+    return queryInterface.bulkDelete(options, {
       address: { [Op.in]: ['555 Electric Ave', '123 Fake Street', '333 third street', '455 ravens nest blvd'] }
     }, {});
   }
