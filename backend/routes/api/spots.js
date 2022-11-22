@@ -1,7 +1,7 @@
 const express = require('express')
 
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
-const { User, Spot, SpotImage, Review, Booking } = require('../../db/models');
+const { User, Spot, SpotImage, Review, Booking, ReviewImage, sequelize } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require("sequelize");
@@ -55,8 +55,29 @@ const validateReview = [
 
 // get all spots
 router.get('/', async (req, res) => {
-    const spots = await Spot.findAll()
-    return res.json(spots)
+    const spots = await Spot.findAll({
+        attributes: {
+            include: [
+                [
+                    sequelize.fn("AVG", sequelize.col("Reviews.stars")),
+                "avgRating"
+                ],
+                [sequelize.col("SpotImages.url"), 'previewImage']
+            ],
+        },
+        include: [{
+            model: Review,
+            attributes: []
+        },
+        {
+            model: SpotImage,
+            attributes: []
+        }
+    ],
+    group: 'Spot.id'
+    })
+    const result = {"Spots": spots}
+    return res.json(result)
 });
 
 // get spots for current user
@@ -64,29 +85,81 @@ router.get('/current', async (req, res) => {
     restoreUser;
     const { user } = req;
     const spots = await Spot.findAll({
+        attributes: {
+            include: [
+                [
+                    sequelize.fn("AVG", sequelize.col("Reviews.stars")),
+                "avgRating"
+                ],
+                [sequelize.col("SpotImages.url"), 'previewImage']
+            ],
+        },
+        include: [{
+            model: Review,
+            attributes: []
+        },
+        {
+            model: SpotImage,
+            attributes: []
+        }
+    ],
         where: {
             ownerId: user.id
-        }
+        },
+        group: 'Spot.id'
     })
-    return res.json(spots)
+    const result = {"Spots": spots}
+    return res.json(result)
 });
 
 // get spot details by id
 router.get('/:spotId', async (req, res, next) => {
-    const split = req.url.split('/')
-    const spotId = split[split.length - 1];
-    const spot = await Spot.findByPk(spotId, {
-        include: [{
-            model: User,
-            as: "Owner"
-        }]
-    });
+
+    const spotId = req.params.spotId
+    const spot = await Spot.findByPk(spotId,
+        {
+            attributes: {
+                include: [
+                    [
+                        sequelize.fn("AVG", sequelize.col("Reviews.stars")),
+                    "avgStarRating"
+                    ],
+                    [
+                        sequelize.fn('count', sequelize.col("Reviews.id")),
+                    "numReviews"
+                    ],
+                ],
+            },
+            include: [{
+                model: Review,
+                attributes: []
+            },
+            {
+                model: SpotImage,
+                attributes: ['id', 'url', 'preview']
+            },
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName'],
+                as: 'Owner'
+            }
+        ],
+        group: 'Spot.id'
+        });
+
+        // const cnt = await Review.count({
+        //     where: {
+        //         spotId: spot.id
+        //     }
+        // })
 
     if(!spot) {
         const err = new Error("Spot couldn't be found")
         err.status = 404
         next(err)
-    } else{return res.json(spot)}
+    } else{
+        return res.json(spot)
+    }
 
 
 })
@@ -177,9 +250,17 @@ router.get('/:spotId/reviews', async (req, res, next) => {
     }
 
     const reviews = await Review.findAll({
-        where: {spotId: spotId}
+        where: {spotId: spotId},
+        include: [{
+            model: User,
+            attributes: ['id', 'firstName', 'lastName']
+        },
+        {
+            model: ReviewImage,
+            attributes: ['id', 'url']
+        }]
     })
-    return res.json(reviews)
+    return res.json({Reviews: reviews})
 })
 
 // create a review based on spot id

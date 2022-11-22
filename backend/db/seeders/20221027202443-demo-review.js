@@ -24,7 +24,13 @@ module.exports = {
         userId: 3,
         review: 'had an awful time, my wife left me and she took the kids',
         stars: 1
-      }
+      },
+      {
+        spotId: 1,
+        userId: 3,
+        review: 'mid',
+        stars: 1
+      },
     ], {});
   },
 
