@@ -339,8 +339,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         endDate
     })
     return res.json({
-        "startDate": newBooking.startDate,
-        "endDate": newBooking.endDate
+        newBooking
 })
 })
 
