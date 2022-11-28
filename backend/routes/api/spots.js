@@ -51,7 +51,12 @@ const validateReview = [
     handleValidationErrors
 ]
 
-
+const validateBooking = [
+    check('endDate')
+    .exists({ checkFalsy: true })
+    .isAfter('startDate')
+    .withMessage('endDate cannot come before startDate')
+]
 
 // get all spots
 router.get('/', async (req, res) => {
@@ -316,16 +321,16 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
 })
 
 // create booking based on spot id
-router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
+router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, next) => {
     const split = req.url.split('/');
     const spotId = split[split.length - 2];
     const { startDate, endDate } = req.body;
     const { user } = req;
-    if(startDate >= endDate) {
-        const err = new Error("endDate cannot be on or before startDate")
-        err.status = 400;
-        next(err)
-    }
+    // if(startDate >= endDate) {
+    //     const err = new Error("endDate cannot be on or before startDate")
+    //     err.status = 400;
+    //     next(err)
+    // }
     const spot = await Spot.findByPk(spotId)
     if(!spot){
         const err = new Error("Spot couldn't be found")
