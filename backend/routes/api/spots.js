@@ -51,12 +51,12 @@ const validateReview = [
     handleValidationErrors
 ]
 
-const validateBooking = [
-    check('endDate')
-    .exists({ checkFalsy: true })
-    .isAfter('startDate')
-    .withMessage('endDate cannot come before startDate')
-]
+// const validateBooking = [
+//     check('endDate')
+//     .isAfter('startDate')
+//     .withMessage('endDate cannot come before startDate'),
+//     handleValidationErrors
+// ]
 
 // get all spots
 router.get('/', async (req, res) => {
@@ -284,7 +284,6 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
     const reviews = await Review.findOne({
         where:{spotId: spotId, userId: user.id}
     })
-    console.log(reviews)
     if(reviews) {
         const err = new Error("User already has a review for this spot")
         err.status = 403
@@ -321,7 +320,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
 })
 
 // create booking based on spot id
-router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, next) => {
+router.post('/:spotId/bookings', requireAuth,  async (req, res, next) => {
     const split = req.url.split('/');
     const spotId = split[split.length - 2];
     const { startDate, endDate } = req.body;
