@@ -51,13 +51,6 @@ const validateReview = [
     handleValidationErrors
 ]
 
-// const validateBooking = [
-//     check('endDate')
-//     .isAfter('startDate')
-//     .withMessage('endDate cannot come before startDate'),
-//     handleValidationErrors
-// ]
-
 // get all spots
 router.get('/', async (req, res) => {
     const spots = await Spot.findAll({
