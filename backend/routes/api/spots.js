@@ -185,43 +185,43 @@ router.get('/', validateFilters, async (req, res) => {
 // });
 
 // get spot details by id
-router.get('/:spotId', async (req, res, next) => {
-    const split = req.url.split('/')
-    const spotId = split[split.length - 1];
-    let spot = await Spot.findByPk(spotId);
+// router.get('/:spotId', async (req, res, next) => {
+//     const split = req.url.split('/')
+//     const spotId = split[split.length - 1];
+//     let spot = await Spot.findByPk(spotId);
 
-    if(!spot) {
-        const err = new Error("Spot couldn't be found")
-        err.status = 404
-        next(err)
-    }
+//     if(!spot) {
+//         const err = new Error("Spot couldn't be found")
+//         err.status = 404
+//         next(err)
+//     }
 
-  const avgStarRating = await spot.getReviews({
-    attributes: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
-  });
-  const numReviews = await spot.getReviews({
-    attributes: [[sequelize.fn("COUNT", sequelize.col("stars")), "numReviews"]],
-  });
+//   const avgStarRating = await spot.getReviews({
+//     attributes: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
+//   });
+//   const numReviews = await spot.getReviews({
+//     attributes: [[sequelize.fn("COUNT", sequelize.col("stars")), "numReviews"]],
+//   });
 
-  spot = spot.toJSON();
-  spot.numReviews = numReviews[0].dataValues.numReviews;
-  spot.avgStarRating = avgStarRating[0].dataValues.avgRating;
+//   spot = spot.toJSON();
+//   spot.numReviews = numReviews[0].dataValues.numReviews;
+//   spot.avgStarRating = avgStarRating[0].dataValues.avgRating;
 
-  spot.SpotImages = await SpotImage.findAll({
-    where: { spotId: req.params.spotId },
-    attributes: ["id", "url", "preview"],
-  });
+//   spot.SpotImages = await SpotImage.findAll({
+//     where: { spotId: req.params.spotId },
+//     attributes: ["id", "url", "preview"],
+//   });
 
-  spot.Owner = await User.findByPk(spot.ownerId, {
-    attributes: { exclude: ["username"] },
-  });
-
-
-        return res.json(spot)
+//   spot.Owner = await User.findByPk(spot.ownerId, {
+//     attributes: { exclude: ["username"] },
+//   });
 
 
+//         return res.json(spot)
 
-})
+
+
+// })
 
 // create a spot
 router.post('/', requireAuth, validateSpot, async (req, res) => {
