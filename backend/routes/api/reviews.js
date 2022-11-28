@@ -34,7 +34,8 @@ router.get('/current', requireAuth, async (req, res) => {
             attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price'],
             include: {
                 model: SpotImage,
-                attributes: [],
+                attributes: ['url'],
+                where: {preview: true}
             }
         },
         {
