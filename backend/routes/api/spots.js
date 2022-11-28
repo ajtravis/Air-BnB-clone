@@ -186,8 +186,9 @@ router.get('/current', async (req, res) => {
 
 // get spot details by id
 router.get('/:spotId', async (req, res, next) => {
-
-    let spot = await Spot.findByPk(req.params.spotId);
+    const split = req.url.split('/')
+    const spotId = split[split.length - 1];
+    let spot = await Spot.findByPk(spotId);
 
     if(!spot) {
         const err = new Error("Spot couldn't be found")
