@@ -52,12 +52,6 @@ const validateReview = [
 ]
 
 const validateFilters = [
-    query('page')
-    .isInt({ min: 0, max: 10 })
-    .withMessage('Page must be greater than or equal to 1'),
-  query('size')
-    .isInt({ min: 0, max: 10 })
-    .withMessage('Size must be greater than or equal to 1'),
   query('minLat')
     .optional()
     .isDecimal({ min: -90, max: 90 })
@@ -82,11 +76,12 @@ router.get('/', validateFilters, async (req, res) => {
 
   let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
 
+  if (!page) page = 1;
+  if (!size) size = 20;
+
   page = parseInt(page);
   size = parseInt(size);
 
-  if (isNaN(page)) page = 1;
-  if (isNaN(size)) size = 20;
 
   let where = {}
 
