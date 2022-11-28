@@ -164,7 +164,7 @@ router.get('/current', async (req, res) => {
         where: {
             ownerId: user.id
         },
-        group: 'Spot.id'
+        group: 'SpotImage.id'
     })
     const result = {"Spots": spots}
     return res.json(result)
