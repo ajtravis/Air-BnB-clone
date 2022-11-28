@@ -21,30 +21,40 @@ const validateReview = [
 
 // get reviews made by current user
 router.get('/current', requireAuth, async (req, res) => {
-    const { user } = req;
-    const reviews = await Review.findAll({
-        where: {userId: user.id},
-        include: [
-        {
-            model: User,
-            attributes:['id', 'firstName', 'lastName']
-        },
-        {
-            model: Spot,
-            attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price'],
-            include: {
-                model: SpotImage,
-                attributes: ['url'],
-                where: {preview: true}
-            }
-        },
-        {
-            model: ReviewImage,
-            attributes: ['id', 'url']
-        }
-    ]
+    const userId = req.user.id;
+
+    const reviewList = await Review.findAll({ where: { userId } });
+  const Reviews = [];
+  for (let i = 0; i < reviewList.length; i++) {
+    let review = reviewList[i];
+    let user = await review.getUser({ attributes: { exclude: ["username"] }, });
+    let spot = await review.getSpot({
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     });
-    res.json({Reviews: reviews})
+    spot = spot.toJSON();
+    let previewImage = await SpotImage.findOne({
+      where: { preview: true, spotId: spot.id },
+    });
+    spot.previewImage = previewImage ? previewImage.toJSON().url : null;
+    let reviewImages = await review.getReviewImages({
+      attributes: { exclude: ["reviewId", "createdAt", "updatedAt"] },
+    });
+    const ReviewImages = [];
+    for (let i = 0; i < reviewImages.length; i++) {
+      let image = reviewImages[i];
+      image = image.toJSON();
+      ReviewImages.push(image);
+    }
+    review = review.toJSON();
+    review.User = user.toJSON();
+    review.Spot = spot;
+    review.ReviewImages = ReviewImages;
+    Reviews.push(review);
+  }
+
+  return res.json({ Reviews });
+
+
 })
 // add an image based on review id
 router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
