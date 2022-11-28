@@ -275,16 +275,18 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
         err.status = 404
         next(err)
     }
-    const reviews = await Review.findAll({
+    const reviews = await Review.findOne({
         where:{spotId: spotId, userId: user.id}
     })
+    console.log(reviews)
     if(reviews) {
         const err = new Error("User already has a review for this spot")
         err.status = 403
-        next(err)
+        return next(err)
     }
     const newReview = await Review.create({userId: user.id, spotId: spotId, review, stars})
     return res.json(newReview)
+
 })
 
 // get bookings based on spot id
