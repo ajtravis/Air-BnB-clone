@@ -139,50 +139,50 @@ router.get('/', validateFilters, async (req, res) => {
 });
 
 // get spots for current user
-// router.get('/current', async (req, res) => {
-//     restoreUser;
-//     const { user } = req;
-//     const spots = await Spot.findAll({
-//         where: {
-//             ownerId: user.id
-//         },
-//         raw: true,
-//         include: [
-//             {
-//                 model: Review,
-//                 attributes: []
-//             }
-//         ],
-//         attributes: {
-//             include: [
-//                 [
-//                     sequelize.fn("AVG", sequelize.col('Reviews.stars')),
-//                     'avgRating'
-//                 ]
-//             ],
-//             required: false
-//         },
-//         group: ["Spot.id"],
-//     })
-//     for (i = 0; i < spots.length; i++) {
-//         const image = await SpotImage.findOne({
-//             raw: true,
-//             where: {
-//                 [Op.and]: [
-//                     { spotId: spots[i].id },
-//                     { preview: true }
-//                 ]
-//             }
-//         })
-//         if (image) {
-//             spots[i].previewImage = image.url
-//         } else {
-//             spots[i].previewImage = null
-//         }
-//     }
-//     const result = {"Spots": spots}
-//     return res.json(result)
-// });
+router.get('/current', async (req, res) => {
+    restoreUser;
+    const { user } = req;
+    const spots = await Spot.findAll({
+        where: {
+            ownerId: user.id
+        },
+        raw: true,
+        include: [
+            {
+                model: Review,
+                attributes: []
+            }
+        ],
+        attributes: {
+            include: [
+                [
+                    sequelize.fn("AVG", sequelize.col('Reviews.stars')),
+                    'avgRating'
+                ]
+            ],
+            required: false
+        },
+        group: ["Spot.id"],
+    })
+    for (i = 0; i < spots.length; i++) {
+        const image = await SpotImage.findOne({
+            raw: true,
+            where: {
+                [Op.and]: [
+                    { spotId: spots[i].id },
+                    { preview: true }
+                ]
+            }
+        })
+        if (image) {
+            spots[i].previewImage = image.url
+        } else {
+            spots[i].previewImage = null
+        }
+    }
+    const result = {"Spots": spots}
+    return res.json(result)
+});
 
 // get spot details by id
 // router.get('/:spotId', async (req, res, next) => {
