@@ -143,29 +143,43 @@ router.get('/current', async (req, res) => {
     restoreUser;
     const { user } = req;
     const spots = await Spot.findAll({
-        attributes: {
-            include: [
-                [
-                    sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-                "avgRating"
-                ],
-                [sequelize.col("SpotImages.url"), 'previewImage']
-            ],
-        },
-        include: [{
-            model: Review,
-            attributes: []
-        },
-        {
-            model: SpotImage,
-            attributes: []
-        }
-    ],
         where: {
             ownerId: user.id
         },
-        group: 'SpotImage.id'
+        raw: true,
+        include: [
+            {
+                model: Review,
+                attributes: []
+            }
+        ],
+        attributes: {
+            include: [
+                [
+                    sequelize.fn("AVG", sequelize.col('Reviews.stars')),
+                    'avgRating'
+                ]
+            ],
+            required: false
+        },
+        group: ["Spot.id"],
     })
+    for (i = 0; i < spots.length; i++) {
+        const image = await SpotImage.findOne({
+            raw: true,
+            where: {
+                [Op.and]: [
+                    { spotId: spots[i].id },
+                    { preview: true }
+                ]
+            }
+        })
+        if (image) {
+            spots[i].previewImage = image.url
+        } else {
+            spots[i].previewImage = null
+        }
+    }
     const result = {"Spots": spots}
     return res.json(result)
 });
@@ -173,51 +187,37 @@ router.get('/current', async (req, res) => {
 // get spot details by id
 router.get('/:spotId', async (req, res, next) => {
 
-    const spotId = req.params.spotId
-    const spot = await Spot.findByPk(spotId,
-        {
-            attributes: {
-                include: [
-                    [
-                        sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-                    "avgStarRating"
-                    ],
-                    [
-                        sequelize.fn('count', sequelize.col("Reviews.id")),
-                    "numReviews"
-                    ],
-                ],
-            },
-            include: [{
-                model: Review,
-                attributes: []
-            },
-            {
-                model: SpotImage,
-                attributes: ['id', 'url', 'preview']
-            },
-            {
-                model: User,
-                attributes: ['id', 'firstName', 'lastName'],
-                as: 'Owner'
-            }
-        ],
-        group: 'Spot.id'
-        });
-
-        // const cnt = await Review.count({
-        //     where: {
-        //         spotId: spot.id
-        //     }
-        // })
+    let spot = await Spot.findByPk(req.params.spotId);
 
     if(!spot) {
         const err = new Error("Spot couldn't be found")
         err.status = 404
         next(err)
-    } else{
-        return res.json(spot)
     }
+
+  const avgStarRating = await spot.getReviews({
+    attributes: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
+  });
+  const numReviews = await spot.getReviews({
+    attributes: [[sequelize.fn("COUNT", sequelize.col("stars")), "numReviews"]],
+  });
+
+  spot = spot.toJSON();
+  spot.numReviews = numReviews[0].dataValues.numReviews;
+  spot.avgStarRating = avgStarRating[0].dataValues.avgRating;
+
+  spot.SpotImages = await SpotImage.findAll({
+    where: { spotId: req.params.spotId },
+    attributes: ["id", "url", "preview"],
+  });
+
+  spot.Owner = await User.findByPk(spot.ownerId, {
+    attributes: { exclude: ["username"] },
+  });
+
+
+        return res.json(spot)
+
 
 
 })
