@@ -185,43 +185,46 @@ router.get('/current', async (req, res) => {
 });
 
 // get spot details by id
-// router.get('/:spotId', async (req, res, next) => {
-//     const split = req.url.split('/')
-//     const spotId = split[split.length - 1];
-//     let spot = await Spot.findByPk(spotId);
+router.get('/:spotId', async (req, res, next) => {
+    const spotId = req.params.spotId;
+    const spot = await Spot.findByPk(spotId, {
+        attributes: {
+            include: [
+                [
+                    sequelize.fn("AVG", sequelize.col('Reviews.stars')),
+                    'avgStarRating'
+                ],
+                [
+                    sequelize.fn("COUNT", sequelize.col("stars")), "numReviews"
+                ],
+            ]
+        },
+        include: [{
+            model: Review,
+            attributes: []
+        },
+        {
+            model: SpotImage,
+            attributes: ['id', 'url', 'preview']
+        },
+        {
+            model: User,
+            attributes: ['id', 'firstName', 'lastName'],
+            as: 'Owner'
+        }
+    ]
 
-//     if(!spot) {
-//         const err = new Error("Spot couldn't be found")
-//         err.status = 404
-//         next(err)
-//     }
+    });
 
-//   const avgStarRating = await spot.getReviews({
-//     attributes: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
-//   });
-//   const numReviews = await spot.getReviews({
-//     attributes: [[sequelize.fn("COUNT", sequelize.col("stars")), "numReviews"]],
-//   });
-
-//   spot = spot.toJSON();
-//   spot.numReviews = numReviews[0].dataValues.numReviews;
-//   spot.avgStarRating = avgStarRating[0].dataValues.avgRating;
-
-//   spot.SpotImages = await SpotImage.findAll({
-//     where: { spotId: req.params.spotId },
-//     attributes: ["id", "url", "preview"],
-//   });
-
-//   spot.Owner = await User.findByPk(spot.ownerId, {
-//     attributes: { exclude: ["username"] },
-//   });
+    if(!spot) {
+        const err = new Error("Spot couldn't be found")
+        err.status = 404
+        next(err)
+    }
 
 
-//         return res.json(spot)
-
-
-
-// })
+  return res.json(spot);
+});
 
 // create a spot
 router.post('/', requireAuth, validateSpot, async (req, res) => {
