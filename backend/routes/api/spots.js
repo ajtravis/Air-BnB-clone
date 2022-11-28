@@ -187,43 +187,64 @@ router.get('/current', async (req, res) => {
 // get spot details by id
 router.get('/:spotId', async (req, res, next) => {
     const spotId = req.params.spotId;
-    const spot = await Spot.findByPk(spotId, {
-        attributes: {
-            include: [
-                [
-                    sequelize.fn("AVG", sequelize.col('Reviews.stars')),
-                    'avgStarRating'
-                ],
-                [
-                    sequelize.fn("COUNT", sequelize.col("stars")), "numReviews"
-                ],
-            ]
-        },
-        include: [{
-            model: Review,
-            attributes: []
-        },
-        {
-            model: SpotImage,
-            attributes: ['id', 'url', 'preview']
-        },
-        {
-            model: User,
-            attributes: ['id', 'firstName', 'lastName'],
-            as: 'Owner'
+    const spot = await Spot.findOne({
+        where: {
+            id: spotId
         }
-    ]
-
     });
 
     if(!spot) {
         const err = new Error("Spot couldn't be found")
         err.status = 404
-        next(err)
+        return next(err)
+    };
+
+    const spotImages = await SpotImage.findAll({
+        where: {spotId: spotId},
+        attributes: ['id', 'url', 'preview']
+    })
+
+    const owner = await User.findOne({where: {id: spot.ownerId}})
+
+    const reviews = await Review.findAll({
+        where: {spotId: spotId},
+        attributes: ['stars']
+    })
+
+    let avgStarRating = null
+    if (reviews) {
+        let sum = 0;
+        reviews.forEach(review => {
+            sum += review.stars
+        });
+        avgStarRating = sum / reviews.length
     }
 
-
-  return res.json(spot);
+    const result = {
+        id: spot.id,
+        ownerId: spot.ownerId,
+        address: spot.address,
+        city: spot.city,
+        state: spot.state,
+        country: spot.country,
+        lat: spot.lat,
+        lng: spot.lng,
+        name: spot.name,
+        description: spot.description,
+        price: spot.price,
+        createdAt: spot.createdAt,
+        updatedAt: spot.updatedAt,
+        numReviews: reviews.length,
+        avgStarRating: avgStarRating,
+        SpotImages: spotImages,
+        Owner: {
+            id: owner.id,
+            firstName: owner.firstName,
+            lastName: owner.lastName
+        }
+    }
+    console.log(owner)
+    return res.json(result)
 });
 
 // create a spot
