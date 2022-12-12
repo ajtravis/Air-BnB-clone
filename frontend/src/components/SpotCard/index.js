@@ -1,9 +1,13 @@
-const SpotCard = ({address, avgRating, price}) => {
+const SpotCard = ({city, state, avgRating, price}) => {
     return (
         <div className="card-container">
-            <div>
-            {address}, {avgRating}, ${price}
+            <div className="card-info">
+                <div className="area">{city}, {state}</div>
+                <div className="rating">
+                <i class="fa-sharp fa-solid fa-star"></i>
+                {avgRating} </div>
             </div>
+            <div className="price"> ${price} </div>
         </div>
     )
 }

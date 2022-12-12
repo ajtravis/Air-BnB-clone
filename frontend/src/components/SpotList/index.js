@@ -28,7 +28,7 @@ const SpotList = () => {
                 {spots.map((ele) => (
                     ele.id ?
                     <li key={ele.id}>
-                       <SpotCard address={ele.address} avgRating={ele.avgrating} price={ele.price} />
+                       <SpotCard city={ele.city} state= {ele.state} avgRating={ele.avgRating} price={ele.price} />
                     </li> :
                     <></>
                 ))}
