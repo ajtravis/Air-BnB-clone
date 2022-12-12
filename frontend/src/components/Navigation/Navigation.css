@@ -1,3 +1,64 @@
 .hidden {
     visibility: hidden;
 }
+
+.menu  {
+    list-style: none;
+    float: right;
+    margin-right: 30px
+}
+
+
+.menu li {
+    display: inline;
+    padding: 5px;
+    margin: 10px;
+}
+
+
+.profile-dropdown {
+    box-sizing: border-box;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding-inline-start: 0px;
+}
+
+.profile-dropdown > li {
+    display: block;
+
+}
+
+.profile-item {
+    margin: 20px;
+
+}
+
+.fa-bars {
+    margin: 5px;
+
+}
+
+.fa-user-circle {
+   margin-left: 5px;
+}
+
+.profile-item > button {
+   background-color: transparent;
+   border: none;
+   font-size: 12px;
+   font-family: sans-serif;
+
+}
+
+a {
+    text-decoration: none;
+    color: inherit
+}
+
+.user-button {
+    border-radius: 15px;
+    border: solid 1px rgba(167, 165, 165, .5);
+    padding: 5px auto;
+    background-color: transparent;
+    height: 30px;
+}

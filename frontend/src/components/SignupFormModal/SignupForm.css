@@ -1,0 +1,28 @@
+.signup-form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    float: right;
+    width: 60%;
+}
+
+
+
+.signup-header {
+    align-self: center;
+}
+
+.signup-form >label {
+    height: 50px
+}
+
+.signup-form > button {
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(251, 42, 98);
+    color: white;
+    height: 40px
+}

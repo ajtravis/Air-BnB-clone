@@ -1,0 +1,31 @@
+.login {
+    display: flex;
+    flex-direction: column;
+}
+
+.login > * {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.login > label > input {
+    width: 50%;
+    float: right;
+}
+
+.login > button {
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(251, 42, 98);
+    color: white;
+}
+
+.login > label {
+    height: 50px;
+
+}
+
+.title {
+    align-self: center;
+}
