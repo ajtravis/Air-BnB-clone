@@ -27,8 +27,7 @@ const initialState = {spots: {}}
 const spotsReducer = (state = initialState, action) => {
 
     switch (action.type) {
-      case LOAD_SPOTS:
-        const loadObj = {...state}
+        case LOAD_SPOTS:
         const spotsArr = action.payload.Spots;
         const allSpots = {}
 
