@@ -2,6 +2,7 @@ import { csrfFetch } from './csrf';
 
 // action constants
 const LOAD_SPOTS = 'spots/loadSpots';
+const NEW_SPOT = 'spots/newSpot'
 
 
 // action creators
@@ -12,6 +13,13 @@ const loadSpots = (spots) => {
     payload: spots,
     }
 };
+
+const add = (spot) => {
+    return {
+        type: NEW_SPOT,
+        payload: spot,
+    }
+}
 
 // thunks
 export const getAllSpots = () => async (dispatch) => {
