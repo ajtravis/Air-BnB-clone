@@ -1,0 +1,13 @@
+.gallery {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+}
+
+.card {
+    width: 20%;
+    margin: 10px;
+    box-sizing: border-box;
+}
