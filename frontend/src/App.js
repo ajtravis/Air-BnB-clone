@@ -17,6 +17,7 @@ function App() {
   }, [dispatch]);
 
   const spot = useSelector((state) => state.spot)
+  const id = spot.id;
 
   return (
     <>
@@ -26,7 +27,7 @@ function App() {
           <Route exact path={'/'}>
             <SpotList />
           </Route>
-          <Route path={'/spots/spotDetails'}>
+          <Route path={`/spots/${id}`}>
             <SpotDetails spot={spot} />
           </Route>
         </Switch>

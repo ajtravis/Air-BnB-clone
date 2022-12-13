@@ -15,8 +15,8 @@ const SpotCard = ({id, city, state, avgRating, price, previewImage}) => {
     let history = useHistory();
 
     const handleClick = () => {
-       const spot = dispatch(findSpot(id));
-        history.push("/spots/spotDetails")
+        dispatch(findSpot(id));
+        history.push(`/spots/${id}`)
     }
 
     return (

@@ -25,7 +25,7 @@ export default function singleSpotReducer(state = {}, action) {
             const newState = { ...state  };
             console.log("spot", action.spot)
             newState[action.spot.id] = { ...state[action.spot.id], ...action.spot }
-            return newState;
+            return newState[action.spot.id];
         }
 
         default: return state
