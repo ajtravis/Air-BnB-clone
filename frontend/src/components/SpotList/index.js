@@ -13,8 +13,7 @@ const SpotList = () => {
 
     const spots = Object.values(allSpots)
 
-    console.log("spots", spots)
-    console.log("all spots", allSpots)
+    
 
     useEffect(() => {
         console.log("spots useEffect is running");

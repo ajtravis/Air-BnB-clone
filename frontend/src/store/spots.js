@@ -7,10 +7,9 @@ const ADD_SPOT = 'spots/addSpot'
 
 // action creators
 const loadSpots = (spots) => {
-    console.log("LOADING SPOTS")
     return {
-    type: LOAD_SPOTS,
-    payload: spots,
+        type: LOAD_SPOTS,
+        payload: spots,
     }
 };
 
