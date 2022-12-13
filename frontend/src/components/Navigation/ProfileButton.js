@@ -35,6 +35,11 @@ function ProfileButton({ user }) {
     dispatch(sessionActions.logout());
   };
 
+  const demoLogin = (e) => {
+    e.preventDefault();
+    dispatch(sessionActions.login({ credential: "DemoUser", password: "password" }))
+  }
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
@@ -50,7 +55,7 @@ function ProfileButton({ user }) {
             <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
             <li>
-              <button onClick={logout}>Log Out</button>
+              <button id="logout" onClick={logout}>Log Out</button>
             </li>
           </>
         ) : (
@@ -66,6 +71,9 @@ function ProfileButton({ user }) {
                 buttonText="Sign Up"
                 modalComponent={<SignupFormModal />}
               />
+            </li>
+            <li className="profile-item">
+              <button onClick={demoLogin}>Demo Login</button>
             </li>
           </>
         )}
