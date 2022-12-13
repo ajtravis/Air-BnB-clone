@@ -33,7 +33,7 @@ export const getAllSpots = () => async (dispatch) => {
 }
 
 export const addSpot = ({address, city, state, country, lat, lng, name, description, price, url, preview}) => async (dispatch) => {
-    const response = await csrfFetch('./api/spots', {
+    const response = await csrfFetch('/api/spots', {
         method: 'POST',
         body: JSON.stringify({
             address, city, state, country, lat, lng, name, description, price
@@ -48,10 +48,10 @@ export const addSpot = ({address, city, state, country, lat, lng, name, descript
 }
 
 // make helper functions folder later
-const normalize = (array) => {
-    const result = {};
-    array.map((ele) => result[ele.id] = ele)
-}
+// const normalize = (array) => {
+//     const result = {};
+//     array.map((ele) => result[ele.id] = ele)
+// }
 
 const initialState = {}
 

@@ -1,8 +1,26 @@
 import "./SpotCard.css"
+import { findSpot } from "../../store/singleSpot";
+import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 
-const SpotCard = ({city, state, avgRating, price, previewImage}) => {
+
+
+const SpotCard = ({id, city, state, avgRating, price, previewImage}) => {
+
+    const allSpots = useSelector((state) => state.spots)
+
+    const dispatch = useDispatch()
+
+    let history = useHistory();
+
+    const handleClick = () => {
+       const spot = dispatch(findSpot(id));
+        history.push("/spots/spotDetails")
+    }
+
     return (
-        <div className="card-container">
+        <div onClick={handleClick} className="card-container">
             <img src={previewImage} alt="img.jpg" />
             <div className="card-info">
                 <div className="area">{city}, {state}</div>
