@@ -19,7 +19,7 @@ const SpotList = () => {
     useEffect(() => {
         console.log("spots useEffect is running");
         dispatch(getAllSpots());
-      }, [dispatch]);
+      }, [dispatch, spots.length]);
 
 
 

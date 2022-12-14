@@ -64,8 +64,12 @@ export const deleteSpotThunk = (id) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${id}`, {
         method: 'DELETE'
     })
-    if(response.ok) dispatch(deleteSpot(id));
-    return response.json()
+    if(response.ok) {
+
+        dispatch(deleteSpot(id))
+    }
+    return response.json
+
 }
 
 // make helper functions folder later
@@ -101,7 +105,11 @@ const spotsReducer = (state = initialState, action) => {
 
         case DELETE_SPOT: {
             const newState = {...state}
-            delete newState[action.id]
+            const spotId = action.payload
+            console.log("payload", action.payload)
+
+            delete newState[spotId]
+
             return newState
         };
 
