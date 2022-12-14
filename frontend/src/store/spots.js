@@ -32,7 +32,7 @@ export const getAllSpots = () => async (dispatch) => {
     }
 }
 
-export const addSpot = ({address, city, state, country, lat, lng, name, description, price}) => async (dispatch) => {
+export const addSpot = ({address, city, state, country, lat, lng, name, description, price, url, preview}) => async (dispatch) => {
     const response = await csrfFetch('/api/spots', {
         method: 'POST',
         body: JSON.stringify({
@@ -42,9 +42,14 @@ export const addSpot = ({address, city, state, country, lat, lng, name, descript
 
     if (response.ok) {
         const spot = await response.json();
-        dispatch(add(spot))
-        return spot;
-        }
+        const imgResponse = await csrfFetch(`/api/spots/${spot.id}/images`, {
+            method: 'POST',
+            body: JSON.stringify({
+                url, preview
+            })
+        })
+        if (imgResponse.ok) dispatch(add(spot));
+    }
 }
 
 // make helper functions folder later

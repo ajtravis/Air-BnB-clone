@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addSpot } from '../../store/spots'
+import { useHistory } from 'react-router-dom';
 
 
 const AddSpotForm = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
@@ -20,12 +22,14 @@ const AddSpotForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors([]);
-        return dispatch(addSpot({address, city, state, country, lat, lng, name, description, price}))
-        .catch(async (res) => {
-            const data = await res.json();
-            if (data && data.errors) setErrors(data.errors);
-        });
+        dispatch(addSpot({address, city, state, country, lat, lng, name, description, price, url, preview: true}))
+            .catch(async (res) => {
+                const data = await res.json();
+                if (data && data.errors) setErrors(data.errors);
+            });
+        history.push('/');
     }
+
     return (
         <>
         <h1>List A New Spot</h1>
@@ -111,7 +115,7 @@ const AddSpotForm = () => {
                 type="url"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-
+                required
                 />
             </label>
             <label>
