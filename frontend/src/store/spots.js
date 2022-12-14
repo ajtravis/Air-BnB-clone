@@ -4,6 +4,7 @@ import { selectSpot } from './singleSpot'
 // action constants
 const LOAD_SPOTS = 'spots/loadSpots';
 const ADD_SPOT = 'spots/addSpot'
+const DELETE_SPOT = 'spots/delete'
 
 
 // action creators
@@ -18,6 +19,13 @@ const add = (spot) => {
     return {
         type: ADD_SPOT,
         payload: spot,
+    }
+}
+
+const deleteSpot = (id) => {
+    return {
+        type: DELETE_SPOT,
+        payload: id,
     }
 }
 
@@ -70,6 +78,19 @@ export const editSpot = ({address, city, state, country, lat, lng, name, descrip
 
 
 //ToDo make helper functions folder later
+export const deleteSpotThunk = (id) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${id}`, {
+        method: 'DELETE'
+    })
+    if(response.ok) {
+
+        dispatch(deleteSpot(id))
+    }
+    return response.json
+
+}
+
+// make helper functions folder later
 // const normalize = (array) => {
 //     const result = {};
 //     array.map((ele) => result[ele.id] = ele)
@@ -80,22 +101,36 @@ const initialState = {}
 const spotsReducer = (state = initialState, action) => {
 
     switch (action.type) {
-        case LOAD_SPOTS:
-        const spotsArr = action.payload.Spots;
-        const allSpots = {};
+        case LOAD_SPOTS: {
+            const spotsArr = action.payload.Spots;
+            const allSpots = {};
 
-        spotsArr.forEach(ele => {
-            allSpots[ele.id] = ele;
-        });
+            spotsArr.forEach(ele => {
+                allSpots[ele.id] = ele;
+            });
 
-        return {
-            ...state,
-            ...allSpots
-        }
-        case ADD_SPOT:
+            return {
+                ...state,
+                ...allSpots
+            }
+        };
+
+        case ADD_SPOT: {
             const newState = {...state};
             newState[action.payload.id] = action.payload;
             return newState;
+        };
+
+        case DELETE_SPOT: {
+            const newState = {...state}
+            const spotId = action.payload
+            console.log("payload", action.payload)
+
+            delete newState[spotId]
+
+            return newState
+        };
+
       default:
         return state;
     }

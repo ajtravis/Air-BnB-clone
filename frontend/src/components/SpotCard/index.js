@@ -18,7 +18,6 @@ const SpotCard = ({id, city, state, avgRating, price, previewImage}) => {
         dispatch(findSpot(id));
         history.push(`/spots/${id}`)
     }
-    console.log("img", previewImage)
     return (
         <div onClick={handleClick} className="card-container">
             <div className="img-container">
