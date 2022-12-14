@@ -8,7 +8,7 @@ import { getAllSpots } from '../../store/spots';
 const SpotList = () => {
     const dispatch = useDispatch()
 
-    
+
     const allSpots = useSelector((state) => state.spots)
 
     const spots = Object.values(allSpots)
@@ -29,7 +29,7 @@ const SpotList = () => {
                 {spots.map((ele) => (
                     ele.id ?
                     <li className='card' key={ele.id}>
-                       <SpotCard id={ele.id} city={ele.city} state= {ele.state} avgRating={ele.avgRating} price={ele.price} img={ele.previewImage} />
+                       <SpotCard id={ele.id} city={ele.city} state= {ele.state} avgRating={ele.avgRating} price={ele.price} previewImage={ele.previewImage} />
                     </li> :
                     <></>
                 ))}
