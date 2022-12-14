@@ -21,10 +21,10 @@ const add = (spot) => {
     }
 }
 
-const deleteSpot = (spot) => {
+const deleteSpot = (id) => {
     return {
         type: DELETE_SPOT,
-        payload: spotId,
+        payload: id,
     }
 }
 
@@ -99,12 +99,12 @@ const spotsReducer = (state = initialState, action) => {
             return newState;
         };
 
-        case DELETE: {
+        case DELETE_SPOT: {
             const newState = {...state}
-            delete newState[action.spotId]
+            delete newState[action.id]
             return newState
         };
-        
+
       default:
         return state;
     }

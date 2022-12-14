@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react'
-import {useSelector} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { deleteSpotThunk } from '../../store/spots'
+import * as sessionActions from '../../store/session';
 
 
 const SpotDetails = (props) => {
 
     const spot = useSelector((state) => state.spot)
 
-    if(!spot) return;
+    const dispatch = useDispatch();
 
+    const user = useSelector((state) => state.session.user)
 
-    const owner = spot ? spot.Owner : null;
+    const owner = spot.Owner;
 
 
 
@@ -25,7 +28,11 @@ const SpotDetails = (props) => {
                 </div>
                 <div> {spot.numReviews} reviews</div>
                 <div>{spot.city}, {spot.state}, {spot.country}</div>
-
+                {
+                (user && user.id === owner.id) ?
+                <button>Delete Spot</button> :
+                <></>
+                }
             </div>
         </div>
         <div id='images-container'>
