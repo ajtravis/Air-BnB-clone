@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteSpotThunk } from '../../store/spots'
+import { useHistory } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 
 
@@ -9,12 +10,17 @@ const SpotDetails = (props) => {
     const spot = useSelector((state) => state.spot)
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const user = useSelector((state) => state.session.user)
 
     const owner = spot.Owner;
 
+    const deleteHandler = (e) => {
 
+        dispatch(deleteSpotThunk(spot.id))
+        history.push('/')
+    }
 
 
     return (
@@ -30,7 +36,7 @@ const SpotDetails = (props) => {
                 <div>{spot.city}, {spot.state}, {spot.country}</div>
                 {
                 (user && user.id === owner.id) ?
-                <button>Delete Spot</button> :
+                <button onClick={deleteHandler}>Delete Spot</button> :
                 <></>
                 }
             </div>
