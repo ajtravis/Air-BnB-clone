@@ -1,4 +1,5 @@
 import { csrfFetch } from './csrf';
+import { selectSpot } from './singleSpot'
 
 // action constants
 const LOAD_SPOTS = 'spots/loadSpots';
@@ -52,7 +53,23 @@ export const addSpot = ({address, city, state, country, lat, lng, name, descript
     }
 }
 
-// make helper functions folder later
+export const editSpot = ({address, city, state, country, lat, lng, name, description, price}) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spot.id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            address, city, state, country, lat, lng, name, description, price
+        })
+    })
+    if (response. ok) {
+        const spot = await response.json();
+        dispatch(selectSpot(spot));
+        dispatch(add(spot))
+    }
+    return spot;
+    }
+
+
+//ToDo make helper functions folder later
 // const normalize = (array) => {
 //     const result = {};
 //     array.map((ele) => result[ele.id] = ele)
