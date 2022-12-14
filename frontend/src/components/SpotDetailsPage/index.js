@@ -8,7 +8,7 @@ const SpotDetails = (props) => {
 
     if(!spot) return;
 
-    const images = spot.spotImages
+
     const owner = spot ? spot.Owner : null;
 
 
@@ -31,11 +31,11 @@ const SpotDetails = (props) => {
         <div id='images-container'>
             <ul id="spot-image-list">
                 {
-                    images ? images.forEach((img) => {
+                      spot.SpotImages.map((img) => (
                         <li>
-                            <img src={img} />
+                            <img src={img.url} />
                         </li>
-                    }) : <></>
+                      ))
                 }
             </ul>
         </div>
