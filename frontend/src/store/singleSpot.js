@@ -2,7 +2,7 @@ import { csrfFetch } from './csrf';
 
 const SELECT_SPOT = 'spot/selectSpot'
 
-const selectSpot = (spot) => {
+export const selectSpot = (spot) => {
     return {
         type: SELECT_SPOT,
         spot,
