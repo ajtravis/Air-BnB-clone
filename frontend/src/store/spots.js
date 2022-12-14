@@ -32,7 +32,7 @@ export const getAllSpots = () => async (dispatch) => {
     }
 }
 
-export const addSpot = ({address, city, state, country, lat, lng, name, description, price, url, preview}) => async (dispatch) => {
+export const addSpot = ({address, city, state, country, lat, lng, name, description, price}) => async (dispatch) => {
     const response = await csrfFetch('/api/spots', {
         method: 'POST',
         body: JSON.stringify({
