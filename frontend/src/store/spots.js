@@ -3,6 +3,7 @@ import { csrfFetch } from './csrf';
 // action constants
 const LOAD_SPOTS = 'spots/loadSpots';
 const ADD_SPOT = 'spots/addSpot'
+const DELETE_SPOT = 'spots/delete'
 
 
 // action creators
@@ -17,6 +18,13 @@ const add = (spot) => {
     return {
         type: ADD_SPOT,
         payload: spot,
+    }
+}
+
+const deleteSpot = (spot) => {
+    return {
+        type: DELETE_SPOT,
+        payload: spotId,
     }
 }
 
@@ -52,6 +60,14 @@ export const addSpot = ({address, city, state, country, lat, lng, name, descript
     }
 }
 
+export const deleteSpotThunk = (id) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${id}`, {
+        method: 'DELETE'
+    })
+    if(response.ok) dispatch(deleteSpot(id));
+    return response.json()
+}
+
 // make helper functions folder later
 // const normalize = (array) => {
 //     const result = {};
@@ -63,22 +79,32 @@ const initialState = {}
 const spotsReducer = (state = initialState, action) => {
 
     switch (action.type) {
-        case LOAD_SPOTS:
-        const spotsArr = action.payload.Spots;
-        const allSpots = {};
+        case LOAD_SPOTS: {
+            const spotsArr = action.payload.Spots;
+            const allSpots = {};
 
-        spotsArr.forEach(ele => {
-            allSpots[ele.id] = ele;
-        });
+            spotsArr.forEach(ele => {
+                allSpots[ele.id] = ele;
+            });
 
-        return {
-            ...state,
-            ...allSpots
-        }
-        case ADD_SPOT:
+            return {
+                ...state,
+                ...allSpots
+            }
+        };
+
+        case ADD_SPOT: {
             const newState = {...state};
             newState[action.payload.id] = action.payload;
             return newState;
+        };
+
+        case DELETE: {
+            const newState = {...state}
+            delete newState[action.spotId]
+            return newState
+        };
+        
       default:
         return state;
     }
