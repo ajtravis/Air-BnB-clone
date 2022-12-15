@@ -40,9 +40,7 @@ export const updateSpot = (spot) => {
 
 // thunks
 export const getAllSpots = () => async (dispatch) => {
-    console.log("getting spots")
     const response = await csrfFetch('/api/spots');
-
     if (response.ok) {
     const spots = await response.json();
     dispatch(loadSpots(spots))
