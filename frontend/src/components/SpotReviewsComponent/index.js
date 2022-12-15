@@ -15,9 +15,9 @@ const SpotReviewsComponent = () => {
   return (
     <div>
         <ul>
-           
-
-
+           {
+            reviews.map((ele) => <li className='review-card' reviewData={ele}>{}</li>)
+           }
         </ul>
     </div>
   );
