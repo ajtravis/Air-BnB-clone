@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { deleteSpotThunk } from '../../store/spots'
-import { useHistory } from 'react-router-dom';
+import { deleteSpotThunk, editSpot } from '../../store/spots'
+import { useHistory, Redirect } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 
 
@@ -22,6 +22,10 @@ const SpotDetails = (props) => {
         history.push('/')
     }
 
+    const updateHandler = (e) => {
+       history.push(`/spots/update`)
+    }
+
 
     return (
        <div id='details-page-container'>
@@ -37,6 +41,11 @@ const SpotDetails = (props) => {
                 {
                 (user && user.id === owner.id) ?
                 <button onClick={deleteHandler}>Delete Spot</button> :
+                <></>
+                }
+                {
+                (user && user.id === owner.id) ?
+                <button onClick={updateHandler}>Update Spot</button> :
                 <></>
                 }
             </div>

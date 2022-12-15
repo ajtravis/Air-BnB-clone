@@ -8,7 +8,6 @@ import { getAllSpots } from '../../store/spots';
 const SpotList = () => {
     const dispatch = useDispatch()
 
-
     const allSpots = useSelector((state) => state.spots)
 
     const spots = Object.values(allSpots)
@@ -19,7 +18,8 @@ const SpotList = () => {
     useEffect(() => {
         console.log("spots useEffect is running");
         dispatch(getAllSpots());
-      }, [dispatch, spots.length]);
+
+      }, [dispatch]);
 
 
 

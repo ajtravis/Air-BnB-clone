@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation";
 import SpotList from "./components/SpotList";
 import SpotDetails from "./components/SpotDetailsPage";
 import AddSpotForm from "./components/AddSpotForm";
+import UpdateSpotForm from './components/UpdateSpotForm'
 
 
 function App() {
@@ -33,6 +34,9 @@ function App() {
           </Route>
           <Route path={'/spots/addSpot'}>
             <AddSpotForm />
+          </Route>
+          <Route path={`/spots/update`}>
+            <UpdateSpotForm />
           </Route>
         </Switch>
       )}

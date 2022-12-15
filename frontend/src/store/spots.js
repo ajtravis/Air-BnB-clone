@@ -5,6 +5,7 @@ import { selectSpot } from './singleSpot'
 const LOAD_SPOTS = 'spots/loadSpots';
 const ADD_SPOT = 'spots/addSpot'
 const DELETE_SPOT = 'spots/delete'
+const UPDATE_SPOT = "spot/updateSpot";
 
 
 // action creators
@@ -22,12 +23,20 @@ const add = (spot) => {
     }
 }
 
-const deleteSpot = (id) => {
+export const deleteSpot = (id) => {
     return {
         type: DELETE_SPOT,
         payload: id,
     }
 }
+
+export const updateSpot = (spot) => {
+    return {
+      type: UPDATE_SPOT,
+      payload: spot,
+    };
+  };
+
 
 // thunks
 export const getAllSpots = () => async (dispatch) => {
@@ -61,23 +70,23 @@ export const addSpot = ({address, city, state, country, lat, lng, name, descript
     }
 }
 
-export const editSpot = ({address, city, state, country, lat, lng, name, description, price}) => async (dispatch) => {
-    const response = await csrfFetch(`/api/spots/${spot.id}`, {
+export const editSpot = ({id, address, city, state, country, lat, lng, name, description, price}) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${id}`, {
         method: 'PUT',
         body: JSON.stringify({
             address, city, state, country, lat, lng, name, description, price
         })
     })
-    if (response. ok) {
-        const spot = await response.json();
-        dispatch(selectSpot(spot));
-        dispatch(add(spot))
-    }
-    return spot;
+    if (response.ok) {
+        const updated = await response.json();
+        // dispatch(selectSpot(updated))
+        dispatch(updateSpot(updated))
+        return updated;
+    };
     }
 
 
-//ToDo make helper functions folder later
+
 export const deleteSpotThunk = (id) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${id}`, {
         method: 'DELETE'
@@ -89,12 +98,6 @@ export const deleteSpotThunk = (id) => async (dispatch) => {
     return response.json
 
 }
-
-// make helper functions folder later
-// const normalize = (array) => {
-//     const result = {};
-//     array.map((ele) => result[ele.id] = ele)
-// }
 
 const initialState = {}
 
@@ -129,6 +132,14 @@ const spotsReducer = (state = initialState, action) => {
             delete newState[spotId]
 
             return newState
+        };
+
+        case UPDATE_SPOT: {
+            const newState = { ...state };
+            const id = action.payload.id
+            const updatedSpot = {...newState.spot, ...action.payload}
+            newState[id] = updatedSpot;
+            return newState;
         };
 
       default:

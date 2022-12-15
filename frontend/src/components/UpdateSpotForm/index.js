@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { useDispatch } from "react-redux";
 import {useSelector} from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { editSpot, deleteSpot } from '../../store/spots';
 
 const UpdateSpotForm = () => {
     const spot = useSelector((state) => state.spot)
     const dispatch = useDispatch();
-    const history = useHistory();
+    const history = useHistory()
     const [address, setAddress] = useState(spot.address);
     const [city, setCity] = useState(spot.city);
     const [state, setState] = useState(spot.state);
@@ -17,9 +19,23 @@ const UpdateSpotForm = () => {
     const [description, setDescription] = useState(spot.description)
     const [url, setUrl] = useState(spot.url)
     const [errors, setErrors] = useState([]);
+
+    const id = spot.id
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setErrors([]);
+        dispatch(editSpot({id, address, city, state, country, lat, lng, name, description, price}))
+            .catch(async (res) => {
+                const data = await res.json();
+                if (data && data.errors) setErrors(data.errors);
+            });
+        history.push('/')
+        }
+
     return (
         <>
-            <form>
+            <form onSubmit={handleSubmit}>
             <label>
                 Address
                 <input
@@ -92,22 +108,12 @@ const UpdateSpotForm = () => {
                 required
                 />
             </label>
-            <label>
-                Image url
-                <input
-                type="url"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
+            <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 required
+                placeholder='Describe the spot'
                 />
-            </label>
-            <label>
-                Description
-                <textarea
-                 value={description}
-                 onChange={(e) => setDescription(e.target.value)}
-                 required/>
-            </label>
             <button type="submit">Submit</button>
         </form>
         </>
