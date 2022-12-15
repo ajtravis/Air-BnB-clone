@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteSpotThunk, editSpot } from '../../store/spots'
 import { useHistory, Redirect } from 'react-router-dom';
+import SpotReviewsComponent from '../SpotReviewsComponent';
 import { getSpotReviews } from '../../store/reviews';
 import * as sessionActions from '../../store/session';
 
@@ -13,6 +14,15 @@ const SpotDetails = (props) => {
     const history = useHistory();
     const user = useSelector((state) => state.session.user)
     const owner = spot.Owner;
+    const allReviews = useSelector((state) => state.reviews)
+    const reviews = Object.values(allReviews)
+
+
+    useEffect(() => {
+        console.log("reviews useEffect is running");
+        dispatch(getSpotReviews(spot.id));
+
+      }, [spot.id]);
 
     const deleteHandler = (e) => {
 
@@ -51,7 +61,7 @@ const SpotDetails = (props) => {
             <ul id="spot-image-list">
                 {
                       spot.SpotImages.map((img) => (
-                        <li>
+                        <li key={img.id}>
                             <img src={img.url} />
                         </li>
                       ))
@@ -61,8 +71,8 @@ const SpotDetails = (props) => {
         <h2>Entire home hosted by {owner.firstName ? owner.firstName : "Anonymous"}</h2>
         <div id="description">
             <p>{spot.description}</p>
-        </div>
-        <div id="booking-form-container"></div>
+        </div >
+            <SpotReviewsComponent reviews={reviews} />
        </div>
     )
 }
