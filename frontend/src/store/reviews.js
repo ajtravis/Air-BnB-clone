@@ -35,6 +35,18 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
     }
 }
 
+export const postReview = ({review, stars, user, spotId}) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+        method: 'POST',
+        body: JSON.stringify({
+            review, stars
+        })
+    })
+    if (response.ok) {
+        dispatch(addReview(response))
+        }
+}
+
 const reviewReducer = (state = {}, action) => {
 
     switch (action.type) {
@@ -49,6 +61,11 @@ const reviewReducer = (state = {}, action) => {
                 ...state,
                 ...allReviews
             }
+        };
+        case ADD_REVIEW: {
+            const newState = {...state};
+            newState[action.payload.id] = action.payload;
+            return newState;
         }
 
         default: {
