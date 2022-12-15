@@ -46,6 +46,7 @@ export const getAllSpots = () => async (dispatch) => {
     dispatch(loadSpots(spots))
     return spots;
     }
+    return response.json()
 }
 
 export const addSpot = ({address, city, state, country, lat, lng, name, description, price, url, preview}) => async (dispatch) => {
@@ -64,9 +65,13 @@ export const addSpot = ({address, city, state, country, lat, lng, name, descript
                 url, preview
             })
         })
-        if (imgResponse.ok) dispatch(add(spot));
+        if (imgResponse.ok) {
+            dispatch(add(spot))
+        };
+        return imgResponse.json()
     }
-}
+    return response.json()
+};
 
 export const editSpot = ({id, address, city, state, country, lat, lng, name, description, price}) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${id}`, {
@@ -81,6 +86,7 @@ export const editSpot = ({id, address, city, state, country, lat, lng, name, des
         dispatch(updateSpot(updated))
         return updated;
     };
+    return response.json()
     }
 
 
@@ -92,10 +98,9 @@ export const deleteSpotThunk = (id) => async (dispatch) => {
     if(response.ok) {
 
         dispatch(deleteSpot(id))
-    }
+    };
     return response.json
-
-}
+};
 
 const initialState = {}
 

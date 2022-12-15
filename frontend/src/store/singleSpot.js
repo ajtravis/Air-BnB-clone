@@ -17,6 +17,7 @@ export const findSpot = (spotId) => async (dispatch) => {
         dispatch(selectSpot(spot))
         return spot;
     }
+    return response.json()
 }
 
 export default function singleSpotReducer(state = {}, action) {
@@ -27,7 +28,6 @@ export default function singleSpotReducer(state = {}, action) {
             newState[action.spot.id] = { ...state[action.spot.id], ...action.spot }
             return newState[action.spot.id];
         }
-
         default: return state
     }
 }
