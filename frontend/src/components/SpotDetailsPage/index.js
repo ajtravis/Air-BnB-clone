@@ -4,10 +4,12 @@ import { deleteSpotThunk, editSpot } from '../../store/spots'
 import { useHistory, Redirect } from 'react-router-dom';
 import SpotReviewsComponent from '../SpotReviewsComponent';
 import { getSpotReviews } from '../../store/reviews';
+import { findSpot } from '../../store/singleSpot';
+import { useParams } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 
 
-const SpotDetails = (props) => {
+const SpotDetails = () => {
 
     const spot = useSelector((state) => state.spot)
     const dispatch = useDispatch();
@@ -16,16 +18,16 @@ const SpotDetails = (props) => {
     const owner = spot.Owner;
     const allReviews = useSelector((state) => state.reviews)
     const reviews = Object.values(allReviews)
+    const {id} = useParams()
 
 
     useEffect(() => {
         console.log("reviews useEffect is running");
+        dispatch(findSpot(id))
         dispatch(getSpotReviews(spot.id));
-
-      }, [spot.id]);
+      }, [dispatch]);
 
     const deleteHandler = (e) => {
-
         dispatch(deleteSpotThunk(spot.id))
         history.push('/')
     };
@@ -33,6 +35,10 @@ const SpotDetails = (props) => {
     const updateHandler = (e) => {
        history.push(`/spots/update`)
     };
+
+    const reviewHandler = (e) => {
+        history.push(`/reviewForm`)
+    }
 
     return (
        <div id='details-page-container'>
@@ -72,8 +78,12 @@ const SpotDetails = (props) => {
         <div id="description">
             <p>{spot.description}</p>
         </div >
+            <div>
             <SpotReviewsComponent reviews={reviews} />
+            </div>
+            <button onClick={reviewHandler}>Write a review</button>
        </div>
+
     )
 }
 

@@ -35,7 +35,7 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
     }
 }
 
-export const postReview = ({review, stars, spotId}) => async (dispatch) => {
+export const postReview = ({spotId, review, stars, user, reviewImages}) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
         method: 'POST',
         body: JSON.stringify({
@@ -43,8 +43,11 @@ export const postReview = ({review, stars, spotId}) => async (dispatch) => {
         })
     })
     if (response.ok) {
-        dispatch(addReview(response))
+        const result= await response.json();
+        const newReview = {...result, spotId: +spotId, User: user, reviewImages}
+        dispatch(addReview(newReview))
         }
+        return response;
 }
 
 const reviewReducer = (state = {}, action) => {
@@ -57,6 +60,7 @@ const reviewReducer = (state = {}, action) => {
             reviewsArr.forEach(ele => {
                 allReviews[ele.id] = ele;
             });
+            console.log(allReviews)
             return {
                 ...state,
                 ...allReviews

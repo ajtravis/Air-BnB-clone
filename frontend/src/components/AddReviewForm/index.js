@@ -1,40 +1,34 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch,  } from 'react-redux';
+import {useHistory} from 'react-router-dom'
 import { postReview } from '../../store/reviews'
+import './ReviewForm.css'
 
 const AddReviewForm = () => {
     const user = useSelector((state) => state.session.user)
-    const spot = useSelector((state) => state.spot.id)
+    const spot = useSelector((state) => state.spot)
+    const dispatch = useDispatch();
+    const history = useHistory();
     const [review, setReview] = useState('')
     const [stars, setStars] = useState(0)
-    const [star1, setStar1] = useState('')
-    const [star2, setStar2] = useState('')
-    const [star3, setStar3] = useState('')
-    const [star4, setStar4] = useState('')
-    const [star5, setStar5] = useState('')
     const [errors, setErrors] = useState([]);
-    const starClickerArr= [setStar1("clicked"), setStar2("clicked"), setStar3("clicked"), setStar4("clicked"), setStar5("clicked")]
-    const starUnClickerArr= [setStar1(""), setStar2(""), setStar3(""), setStar4(""), setStar5("")]
+    const [hover, setHover] = useState(0);
 
-    const starClick = (number) => {
-        setStars(number)
-        for(let i = number-1; i >= 0; i--){
-            starClickerArr[i]();
-        }
-        for(let i = number-1; i <=5 ; i++){
-            starUnClickerArr[i]();
-        }
-    }
+    if(!spot) return;
+
+    const spotId = spot.id;
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors([]);
-        dispatch(postReview({review, stars, spotId: spot.id}))
+        dispatch(postReview({spotId, review, stars, user, reviewImages: []}))
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             });
-        history.push('/');
+        history.push(`/spots/${spotId}`);
     }
 
     return(
@@ -49,17 +43,42 @@ const AddReviewForm = () => {
         </ul>) :
         (<></>)
         }
-        <i id="star1" className={`fa-solid fa-star + ${star1}`} onClick={starClick(1)}></i>
-        <i id="star2" className={`fa-solid fa-star + ${star2}`} onClick={starClick(2)}></i>
-        <i id="star3" className={`fa-solid fa-star + ${star3}`} onClick={starClick(3)}></i>
-        <i id="star4" className={`fa-solid fa-star + ${star4}`} onClick={starClick(4)}></i>
-        <i id="star5" className={`fa-solid fa-star + ${star5}`} onClick={starClick(5)}></i>
+
+        {/* <div className="star-rating">
+            {[...Array(5)].map((star, index) => {
+                index += 1;
+                return (
+                <button
+                    type="button"
+                    key={index}
+                    className={index <= (hover || stars) ? "on" : "off"}
+                    onClick={() => setStars(index)}
+                    onMouseEnter={() => setHover(index)}
+                    onMouseLeave={() => setHover(stars)}
+                >
+                    <span className="star">&#9733;</span>
+                </button>
+                );
+            })}
+            </div> */}
+        <label>
+            Stars
+            <input
+            type="number"
+            value={stars}
+            min="0"
+            max="5"
+            onChange={(e) => setStars(e.target.value)}
+            required
+            />
+        </label>
         <textarea
             value={review}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => setReview(e.target.value)}
             placeholder='write a review'
             required
         />
+
         <button type="submit">Submit</button>
         </form>
         </>
