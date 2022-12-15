@@ -1,5 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { deleteReviewThunk } from '../../store/reviews';
 
 const ReviewCard = (props) => {
     const  reviewData  = props.reviewData;
@@ -14,9 +15,9 @@ const ReviewCard = (props) => {
     const monthsArr = ["January","February","March","April","May","June","July",
     "August","September","October","November","December"]
     const monthName = monthsArr[month - 1]
-
+    const dispatch = useDispatch();
     const handleDelete = () => {
-        dispatchEvent()
+        dispatch(deleteReviewThunk({reviewId: props.reviewData.id}))
     }
 
     return (
