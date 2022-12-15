@@ -16,14 +16,14 @@ const SpotDetails = () => {
     const history = useHistory();
     const user = useSelector((state) => state.session.user)
     const owner = spot.Owner;
-    const allReviews = useSelector((state) => state.reviews)
-    const reviews = Object.values(allReviews)
+    const spotReviews = useSelector((state) => state.reviews)
+    const reviews = Object.values(spotReviews)
     const {id} = useParams()
 
 
     useEffect(() => {
         console.log("reviews useEffect is running");
-        dispatch(findSpot(id))
+        dispatch(findSpot(spot.id))
         dispatch(getSpotReviews(spot.id));
       }, [dispatch]);
 

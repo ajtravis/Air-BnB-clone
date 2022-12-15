@@ -54,6 +54,7 @@ const reviewReducer = (state = {}, action) => {
 
     switch (action.type) {
         case LOAD_REVIEWS: {
+            const newState = {...state}
             const reviewsArr = action.payload.Reviews;
             const allReviews = {};
 
@@ -62,7 +63,6 @@ const reviewReducer = (state = {}, action) => {
             });
             console.log(allReviews)
             return {
-                ...state,
                 ...allReviews
             }
         };
