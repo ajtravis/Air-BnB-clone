@@ -22,7 +22,7 @@ const AddSpotForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors([]);
-        dispatch(addSpot({address, city, state, country, lat, lng, name, description, price, url, preview: true}))
+        dispatch(addSpot({address, city, state, country, lat: 1, lng: 1, name, description, price, url, preview: true}))
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
@@ -70,24 +70,6 @@ const AddSpotForm = () => {
                 type="text"
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                required
-                />
-            </label>
-            <label>
-                Latitude
-                <input
-                type="text"
-                value={lat}
-                onChange={(e) => setLat(e.target.value)}
-                required
-                />
-            </label>
-            <label>
-                Longitude
-                <input
-                type="text"
-                value={lng}
-                onChange={(e) => setLng(e.target.value)}
                 required
                 />
             </label>

@@ -25,7 +25,7 @@ const UpdateSpotForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors([]);
-        dispatch(editSpot({id, address, city, state, country, lat, lng, name, description, price}))
+        dispatch(editSpot({id, address, city, state, country, lat: 1, lng: 1, name, description, price}))
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
@@ -69,24 +69,6 @@ const UpdateSpotForm = () => {
                 type="text"
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                required
-                />
-            </label>
-            <label>
-                Latitude
-                <input
-                type="text"
-                value={lat}
-                onChange={(e) => setLat(e.target.value)}
-                required
-                />
-            </label>
-            <label>
-                Longitude
-                <input
-                type="text"
-                value={lng}
-                onChange={(e) => setLng(e.target.value)}
                 required
                 />
             </label>

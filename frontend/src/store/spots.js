@@ -56,7 +56,6 @@ export const addSpot = ({address, city, state, country, lat, lng, name, descript
             address, city, state, country, lat, lng, name, description, price
         })
     })
-
     if (response.ok) {
         const spot = await response.json();
         const imgResponse = await csrfFetch(`/api/spots/${spot.id}/images`, {
@@ -66,7 +65,7 @@ export const addSpot = ({address, city, state, country, lat, lng, name, descript
             })
         })
         if (imgResponse.ok) {
-            dispatch(add(spot))
+           await dispatch(add(spot))
         };
         return imgResponse.json()
     }
