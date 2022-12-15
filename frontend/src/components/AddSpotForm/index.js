@@ -33,7 +33,7 @@ const AddSpotForm = () => {
     return (
         <>
         <h1>List A New Spot</h1>
-        <form className="signup-form" onSubmit={handleSubmit}>
+        <form id="signup-form" onSubmit={handleSubmit}>
             <ul>
             {errors.map((error, idx) => <li key={idx}>{error}</li>)}
             </ul>
