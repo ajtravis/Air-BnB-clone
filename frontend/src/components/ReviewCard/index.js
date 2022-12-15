@@ -10,15 +10,23 @@ const ReviewCard = (props) => {
     const month = +dateSplit[1];
     const poster = reviewData.User;
     const reviewBody = reviewData.review;
-    console.log("props in card", props)
+    const user = useSelector((state) => state.session.user)
     const monthsArr = ["January","February","March","April","May","June","July",
     "August","September","October","November","December"]
     const monthName = monthsArr[month - 1]
+
+    const handleDelete = () => {
+        dispatchEvent()
+    }
+
     return (
         <div className='review-container'>
             <div id="user-name">{poster.firstName}</div>
             <div id="post-date">{monthName} {year}</div>
             <div id="review-body">{reviewBody}</div>
+            {(user.id === poster.id)?
+            <button onClick={handleDelete}>Delete Review</button>:
+            <></>}
         </div>
     )
 }
