@@ -20,7 +20,7 @@ function App() {
   }, [dispatch]);
 
   const spot = useSelector((state) => state.spot)
-  const id = spot.id;
+  const spotId = spot.id;
 
   return (
     <>
@@ -30,8 +30,8 @@ function App() {
           <Route exact path={'/'}>
             <SpotList />
           </Route>
-          <Route path={`/spots/${id}`}>
-            <SpotDetails spot={spot} />
+          <Route path={`/spots/${spotId}`}>
+            <SpotDetails />
           </Route>
           <Route path={'/spots/addSpot'}>
             <AddSpotForm />

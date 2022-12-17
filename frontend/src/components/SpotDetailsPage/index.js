@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteSpotThunk, editSpot } from '../../store/spots'
 import { useHistory, Redirect } from 'react-router-dom';
@@ -11,21 +11,25 @@ import * as sessionActions from '../../store/session';
 
 const SpotDetails = () => {
 
-    const spot = useSelector((state) => state.spot)
+
     const dispatch = useDispatch();
     const history = useHistory();
-    const user = useSelector((state) => state.session.user)
-    const owner = spot.Owner;
-    const spotReviews = useSelector((state) => state.reviews)
-    const reviews = Object.values(spotReviews)
-    const {id} = useParams()
-
+    const {spotId} = useParams()
+    const [isLoaded, setIsLoaded] = useState(false)
+    const spot = useSelector((state) => state.spot)
 
     useEffect(() => {
         console.log("reviews useEffect is running");
         dispatch(findSpot(spot.id))
-        dispatch(getSpotReviews(spot.id));
-      }, [dispatch]);
+            .then(() => dispatch(getSpotReviews(spot.id)))
+            .then(() => setIsLoaded(true))
+      }, [spot.id, dispatch]);
+
+
+    const user = useSelector((state) => state.session.user)
+    const owner = spot.Owner;
+    const spotReviews = useSelector((state) => state.reviews)
+    const reviews = Object.values(spotReviews)
 
     const deleteHandler = (e) => {
         dispatch(deleteSpotThunk(spot.id))
@@ -41,6 +45,8 @@ const SpotDetails = () => {
     }
 
     return (
+        <>
+        {isLoaded &&
        <div id='details-page-container'>
         <div className='head'>
             <h1>{spot.name}</h1>
@@ -68,7 +74,7 @@ const SpotDetails = () => {
                 {
                       spot.SpotImages.map((img) => (
                         <li key={img.id}>
-                            <img src={img.url} />
+                            <img src={img.url} alt={"img.jpg"} />
                         </li>
                       ))
                 }
@@ -83,7 +89,8 @@ const SpotDetails = () => {
             </div>
             <button onClick={reviewHandler}>Write a review</button>
        </div>
-
+    }
+    </>
     )
 }
 
