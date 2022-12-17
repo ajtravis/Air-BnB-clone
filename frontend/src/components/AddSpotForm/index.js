@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addSpot } from '../../store/spots'
 import { useHistory } from 'react-router-dom';
-
+import './addspot.css'
 
 const AddSpotForm = () => {
     const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const AddSpotForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors([]);
-        dispatch(addSpot({address, city, state, country, lat, lng, name, description, price, url, preview: true}))
+        dispatch(addSpot({address, city, state, country, lat: 1, lng: 1, name, description, price, url, preview: true}))
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
@@ -31,15 +31,16 @@ const AddSpotForm = () => {
     }
 
     return (
-        <>
+        <div className="form-container">
         <h1>List A New Spot</h1>
-        <form id="signup-form" onSubmit={handleSubmit}>
+        <form className="spot-form" onSubmit={handleSubmit}>
             <ul>
             {errors.map((error, idx) => <li key={idx}>{error}</li>)}
             </ul>
             <label>
-                Address
+                {/* Address */}
                 <input
+                placeholder="Address"
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
@@ -47,26 +48,29 @@ const AddSpotForm = () => {
                 />
             </label>
             <label>
-                City
+                {/* City */}
                 <input
+                placeholder="City"
                 type="text"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 required
                 />
             </label>
-            <lable>
-                State
+            <label>
+                {/* State */}
                 <input
+                placeholder="State"
                 type="text"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
                 required
                 />
-            </lable>
+            </label>
             <label>
-                Country
+                {/* Country */}
                 <input
+                placeholder="Country"
                 type="text"
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
@@ -74,26 +78,9 @@ const AddSpotForm = () => {
                 />
             </label>
             <label>
-                Latitude
+                {/* Spot Name */}
                 <input
-                type="text"
-                value={lat}
-                onChange={(e) => setLat(e.target.value)}
-                required
-                />
-            </label>
-            <label>
-                Longitude
-                <input
-                type="text"
-                value={lng}
-                onChange={(e) => setLng(e.target.value)}
-                required
-                />
-            </label>
-            <label>
-                Spot Name
-                <input
+                placeholder="Spot Name"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -101,8 +88,9 @@ const AddSpotForm = () => {
                 />
             </label>
             <label>
-                Price per night
+                {/* Price per night */}
                 <input
+                placeholder="Price Per-Night"
                 type="text"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
@@ -110,8 +98,9 @@ const AddSpotForm = () => {
                 />
             </label>
             <label>
-                Image url
+                {/* Image url */}
                 <input
+                placeholder="Image Url"
                 type="url"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
@@ -119,15 +108,16 @@ const AddSpotForm = () => {
                 />
             </label>
             <label>
-                Description
+                {/* Description */}
                 <textarea
+                placeholder="Description goes here"
                  value={description}
                  onChange={(e) => setDescription(e.target.value)}
                  required/>
             </label>
             <button type="submit">Submit</button>
         </form>
-        </>
+        </div>
     )
 }
 
