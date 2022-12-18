@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import {useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { editSpot, deleteSpot } from '../../store/spots';
+import "../AddSpotForm/addspot.css"
 
 const UpdateSpotForm = () => {
     const spot = useSelector((state) => state.spot)
@@ -35,7 +36,8 @@ const UpdateSpotForm = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+        <div className='form-container'>
+            <form className='spot-form' onSubmit={handleSubmit}>
             <label>
                 Address
                 <input
@@ -54,7 +56,7 @@ const UpdateSpotForm = () => {
                 required
                 />
             </label>
-            <lable>
+            <label>
                 State
                 <input
                 type="text"
@@ -62,7 +64,7 @@ const UpdateSpotForm = () => {
                 onChange={(e) => setState(e.target.value)}
                 required
                 />
-            </lable>
+            </label>
             <label>
                 Country
                 <input
@@ -108,14 +110,17 @@ const UpdateSpotForm = () => {
                 required
                 />
             </label>
+            <label>
             <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 required
                 placeholder='Describe the spot'
                 />
+            </label>
             <button type="submit">Submit</button>
         </form>
+        </div>
         </>
     );
 }

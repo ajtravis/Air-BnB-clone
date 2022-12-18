@@ -38,7 +38,7 @@ const AddSpotForm = () => {
             {errors.map((error, idx) => <li key={idx}>{error}</li>)}
             </ul>
             <label>
-                {/* Address */}
+                Address
                 <input
                 placeholder="Address"
                 type="text"
@@ -48,7 +48,7 @@ const AddSpotForm = () => {
                 />
             </label>
             <label>
-                {/* City */}
+                City
                 <input
                 placeholder="City"
                 type="text"
@@ -58,7 +58,7 @@ const AddSpotForm = () => {
                 />
             </label>
             <label>
-                {/* State */}
+                State
                 <input
                 placeholder="State"
                 type="text"
@@ -68,7 +68,7 @@ const AddSpotForm = () => {
                 />
             </label>
             <label>
-                {/* Country */}
+                Country
                 <input
                 placeholder="Country"
                 type="text"
@@ -78,7 +78,7 @@ const AddSpotForm = () => {
                 />
             </label>
             <label>
-                {/* Spot Name */}
+                Spot Name
                 <input
                 placeholder="Spot Name"
                 type="text"
@@ -88,7 +88,7 @@ const AddSpotForm = () => {
                 />
             </label>
             <label>
-                {/* Price per night */}
+                Price per night
                 <input
                 placeholder="Price Per-Night"
                 type="text"
@@ -98,7 +98,7 @@ const AddSpotForm = () => {
                 />
             </label>
             <label>
-                {/* Image url */}
+                Image url
                 <input
                 placeholder="Image Url"
                 type="url"
@@ -108,7 +108,7 @@ const AddSpotForm = () => {
                 />
             </label>
             <label>
-                {/* Description */}
+                Description
                 <textarea
                 placeholder="Description goes here"
                  value={description}

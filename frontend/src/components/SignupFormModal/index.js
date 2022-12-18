@@ -37,8 +37,9 @@ function SignupFormModal() {
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
         <label>
-          Email
+          {/* Email */}
           <input
+            placeholder="Email"
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -46,8 +47,9 @@ function SignupFormModal() {
           />
         </label>
         <label>
-          Username
+          {/* Username */}
           <input
+            placeholder="Username"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -55,8 +57,9 @@ function SignupFormModal() {
           />
         </label>
         <label>
-          First Name
+          {/* First Name */}
           <input
+            placeholder="First Name"
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
@@ -64,8 +67,9 @@ function SignupFormModal() {
           />
         </label>
         <label>
-          Last Name
+          {/* Last Name */}
           <input
+            placeholder="Last Name"
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
@@ -73,8 +77,9 @@ function SignupFormModal() {
           />
         </label>
         <label>
-          Password
+          {/* Password */}
           <input
+            placeholder="Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -82,8 +87,9 @@ function SignupFormModal() {
           />
         </label>
         <label>
-          Confirm Password
+          {/* Confirm Password */}
           <input
+            placeholder="Confirm Password"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
