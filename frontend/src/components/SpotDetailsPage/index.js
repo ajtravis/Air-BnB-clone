@@ -102,7 +102,7 @@ const SpotDetails = () => {
             <div className='spotReviews'>
             <SpotReviewsComponent reviews={reviews} />
             </div>
-            <button onClick={reviewHandler}>Write a review</button>
+            <button className='add-review' onClick={reviewHandler}>Write a review</button>
        </div>
     }
     </>

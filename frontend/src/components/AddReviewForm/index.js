@@ -33,8 +33,9 @@ const AddReviewForm = () => {
 
     return(
         <>
+        <div className='container'>
         <h1>Post A Review</h1>
-        <form onSubmit={handleSubmit}>
+        <form className="review-form" onSubmit={handleSubmit}>
         {
         errors.length ? (<ul>
           {errors.map((error, idx) => (
@@ -44,29 +45,12 @@ const AddReviewForm = () => {
         (<></>)
         }
 
-        {/* <div className="star-rating">
-            {[...Array(5)].map((star, index) => {
-                index += 1;
-                return (
-                <button
-                    type="button"
-                    key={index}
-                    className={index <= (hover || stars) ? "on" : "off"}
-                    onClick={() => setStars(index)}
-                    onMouseEnter={() => setHover(index)}
-                    onMouseLeave={() => setHover(stars)}
-                >
-                    <span className="star">&#9733;</span>
-                </button>
-                );
-            })}
-            </div> */}
         <label>
             Stars
             <input
             type="number"
             value={stars}
-            min="0"
+            min="1"
             max="5"
             onChange={(e) => setStars(e.target.value)}
             required
@@ -79,8 +63,9 @@ const AddReviewForm = () => {
             required
         />
 
-        <button type="submit">Submit</button>
+        <button className='review-button' type="submit">Submit</button>
         </form>
+        </div>
         </>
     )
 }

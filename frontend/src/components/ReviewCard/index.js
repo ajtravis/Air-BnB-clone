@@ -27,7 +27,7 @@ const ReviewCard = (props) => {
             <div id="post-date">{monthName} {year}</div>
             <div id="review-body">{reviewBody}</div>
             {(user.id === poster.id)?
-            <button onClick={handleDelete}>Delete Review</button>:
+            <button className='delete-review' onClick={handleDelete}>Delete Review</button>:
             <></>}
         </div>
     )
