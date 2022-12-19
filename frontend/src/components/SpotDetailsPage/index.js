@@ -73,7 +73,7 @@ const SpotDetails = () => {
             <div id="spot-image-list">
                 {
                       spot.SpotImages.map((img) => (
-                        <div  key={img.id}>
+                        <div className='image' key={img.id}>
                             <img className='image' src={img.url} alt={"img.jpg"} />
                         </div>
                       ))
