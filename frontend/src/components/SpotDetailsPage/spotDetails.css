@@ -41,6 +41,8 @@
 
 .image {
     border-radius: 10px;
+    max-height: 500px;
+    width: 100%
 }
 
 .spotInfo {
@@ -77,5 +79,5 @@
 }
 
 .spotReviews {
-    width: 100%
+    width: 100%;
 }

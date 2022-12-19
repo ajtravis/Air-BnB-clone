@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteReviewThunk } from '../../store/reviews';
+import "./reviewCard.css"
 
 const ReviewCard = (props) => {
     const  reviewData  = props.reviewData;

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ReviewCard from '../ReviewCard';
 import { getSpotReviews } from '../../store/reviews';
+import "./reviews.css"
 
 const SpotReviewsComponent = () => {
  const dispatch = useDispatch();

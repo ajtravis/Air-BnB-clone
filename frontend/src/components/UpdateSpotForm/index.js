@@ -75,24 +75,6 @@ const UpdateSpotForm = () => {
                 />
             </label>
             <label>
-                Latitude
-                <input
-                type="text"
-                value={lat}
-                onChange={(e) => setLat(e.target.value)}
-                required
-                />
-            </label>
-            <label>
-                Longitude
-                <input
-                type="text"
-                value={lng}
-                onChange={(e) => setLng(e.target.value)}
-                required
-                />
-            </label>
-            <label>
                 Spot Name
                 <input
                 type="text"

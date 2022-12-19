@@ -85,7 +85,7 @@ const SpotDetails = () => {
                 <h2>Entire home hosted by {owner.firstName ? owner.firstName : "Anonymous"}</h2>
                 <div id="description">
                     <p>{spot.description}</p>
-                </div >
+                </div>
             </div>
             <div className='moreInfo'>
                     <div>${spot.price} night</div>
