@@ -53,7 +53,7 @@ const SpotDetails = () => {
             <div className='head-details'>
                 <div>
                     <i className="fa-sharp fa-solid fa-star"></i>
-                    {spot.avgStarRating}
+                    {Math.round(spot.avgStarRating * 100)/100}
                 </div>
                 <div> {spot.numReviews} reviews</div>
                 <div>{spot.city}, {spot.state}, {spot.country}</div>
@@ -92,7 +92,7 @@ const SpotDetails = () => {
                     <div>
                         <div className="reviews2">
                         <i className="fa-sharp fa-solid fa-star"></i>
-                        <div>{spot.avgStarRating}</div>
+                        <div>{Math.round(spot.avgStarRating * 100)/100}</div>
                         <div> {spot.numReviews} reviews</div>
                         </div>
                     </div>

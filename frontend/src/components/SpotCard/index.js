@@ -6,10 +6,11 @@ import { useHistory } from 'react-router-dom'
 
 
 
+
 const SpotCard = ({id, city, state, avgRating, price, previewImage}) => {
 
     const allSpots = useSelector((state) => state.spots)
-
+    // avgRating = Math.round(avgRating * 100)/100
     const dispatch = useDispatch()
 
     let history = useHistory();
@@ -27,9 +28,9 @@ const SpotCard = ({id, city, state, avgRating, price, previewImage}) => {
                 <div className="area">{city}, {state}</div>
                 <div className="rating">
                 <i className="fa-sharp fa-solid fa-star"></i>
-                {avgRating} </div>
+                {Math.round(avgRating * 100)/100} </div>
             </div>
-            <div className="price"> ${price} </div>
+            <div className="price"> ${Math.round(price)} </div>
         </div>
     )
 }
