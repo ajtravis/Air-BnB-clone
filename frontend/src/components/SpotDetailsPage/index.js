@@ -23,7 +23,7 @@ const SpotDetails = () => {
         dispatch(findSpot(spot.id))
             .then(() => dispatch(getSpotReviews(spot.id)))
             .then(() => setIsLoaded(true))
-      }, [spot, dispatch]);
+      }, [spot, dispatch, spotReviews]);
 
 
     const user = useSelector((state) => state.session.user)
