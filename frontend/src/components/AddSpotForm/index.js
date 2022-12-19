@@ -91,7 +91,7 @@ const AddSpotForm = () => {
                 Price per night
                 <input
                 placeholder="Price Per-Night"
-                type="text"
+                type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 required

@@ -86,7 +86,7 @@ const UpdateSpotForm = () => {
             <label>
                 Price per night
                 <input
-                type="text"
+                type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 required
