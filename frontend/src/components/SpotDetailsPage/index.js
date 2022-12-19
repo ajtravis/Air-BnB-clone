@@ -6,7 +6,7 @@ import SpotReviewsComponent from '../SpotReviewsComponent';
 import { getSpotReviews } from '../../store/reviews';
 import { findSpot } from '../../store/singleSpot';
 import { useParams } from "react-router-dom";
-import * as sessionActions from '../../store/session';
+import './spotDetails.css'
 
 
 const SpotDetails = () => {
@@ -16,14 +16,14 @@ const SpotDetails = () => {
     const history = useHistory();
     const {spotId} = useParams()
     const [isLoaded, setIsLoaded] = useState(false)
-    const spot = useSelector((state) => state.spot)
+    const [spot, setSpot] = useState(useSelector((state) => state.spot))
 
     useEffect(() => {
         console.log("reviews useEffect is running");
         dispatch(findSpot(spot.id))
             .then(() => dispatch(getSpotReviews(spot.id)))
             .then(() => setIsLoaded(true))
-      }, [spot.id, dispatch]);
+      }, [spot, dispatch]);
 
 
     const user = useSelector((state) => state.session.user)
@@ -70,21 +70,36 @@ const SpotDetails = () => {
             </div>
         </div>
         <div id='images-container'>
-            <ul id="spot-image-list">
+            <div id="spot-image-list">
                 {
                       spot.SpotImages.map((img) => (
-                        <li key={img.id}>
-                            <img src={img.url} alt={"img.jpg"} />
-                        </li>
+                        <div  key={img.id}>
+                            <img className='image' src={img.url} alt={"img.jpg"} />
+                        </div>
                       ))
                 }
-            </ul>
+            </div>
         </div>
-        <h2>Entire home hosted by {owner.firstName ? owner.firstName : "Anonymous"}</h2>
-        <div id="description">
-            <p>{spot.description}</p>
-        </div >
-            <div>
+        <div className='spotInfo'>
+            <div className='info'>
+                <h2>Entire home hosted by {owner.firstName ? owner.firstName : "Anonymous"}</h2>
+                <div id="description">
+                    <p>{spot.description}</p>
+                </div >
+            </div>
+            <div className='moreInfo'>
+                    <div>${spot.price} night</div>
+                    <div>
+                        <div className="reviews2">
+                        <i className="fa-sharp fa-solid fa-star"></i>
+                        <div>{spot.avgStarRating}</div>
+                        <div> {spot.numReviews} reviews</div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+            <div className='spotReviews'>
             <SpotReviewsComponent reviews={reviews} />
             </div>
             <button onClick={reviewHandler}>Write a review</button>

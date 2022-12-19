@@ -13,9 +13,7 @@
     width: 40%;
 }
 
-.spot-form > * {
-    height: 50px
-}
+
 
 .spot-form > label {
     margin-top: 5px;
@@ -28,15 +26,16 @@
 
 
 .spot-form > label > input {
-    height: 100%;
+    height: 40px;
     width: 100%;
     border-radius: 10px;
+
 
 }
 
 .spot-form > label > textarea {
     margin-top: 5px;
-    height: 100%;
+    height: 50px;
     width: 100%;
     border-radius: 10px;
 }
@@ -48,4 +47,5 @@
     background: linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%);
     color: white;
     margin-top: 50px;
+    height: 50px;
 }
