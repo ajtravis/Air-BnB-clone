@@ -23,7 +23,7 @@ const SpotDetails = () => {
         dispatch(findSpot(spot.id))
             .then(() => dispatch(getSpotReviews(spot.id)))
             .then(() => setIsLoaded(true))
-      }, [spot, dispatch, spotReviews]);
+      }, [spot, dispatch]);
 
 
     const user = useSelector((state) => state.session.user)
@@ -102,7 +102,9 @@ const SpotDetails = () => {
             <div className='spotReviews'>
             <SpotReviewsComponent reviews={reviews} />
             </div>
+            { user &&
             <button className='add-review' onClick={reviewHandler}>Write a review</button>
+            }
        </div>
     }
     </>
