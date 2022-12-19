@@ -38,7 +38,7 @@ function ProfileButton({ user }) {
 
   const demoLogin = (e) => {
     e.preventDefault();
-    dispatch(sessionActions.login({ credential: "DemoUser1", password: "password" }))
+    dispatch(sessionActions.login({ credential: "Demo-lition", password: "password" }))
   }
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
