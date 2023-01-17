@@ -31,6 +31,10 @@ function ProfileButton({ user }) {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
+  const closeMenu = (e) => {
+    setShowMenu(false)
+  }
+
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
@@ -59,7 +63,9 @@ function ProfileButton({ user }) {
               <button id="logout" onClick={logout}>Log Out</button>
             </li>
             <li>
-              <NavLink to='/spots/addSpot' >List a spot</NavLink>
+              <NavLink to='/spots/addSpot'
+              onClick={closeMenu}
+              >List a spot</NavLink>
             </li>
           </>
         ) : (
