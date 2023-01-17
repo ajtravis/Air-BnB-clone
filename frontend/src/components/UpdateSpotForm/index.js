@@ -34,6 +34,11 @@ const UpdateSpotForm = () => {
         history.push('/')
         }
 
+    const handleCancel = (e) => {
+        e.preventDefault();
+        history.push(`/spots/${id}`)
+    }
+
     return (
         <>
         <div className='form-container'>
@@ -102,6 +107,7 @@ const UpdateSpotForm = () => {
                 />
             </label>
             <button type="submit">Submit</button>
+            <button onClick={handleCancel}>Cancel</button>
         </form>
         </div>
         </>
