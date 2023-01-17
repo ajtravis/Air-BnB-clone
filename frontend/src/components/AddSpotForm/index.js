@@ -94,6 +94,7 @@ const AddSpotForm = () => {
                 type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
+                min={"1"}
                 required
                 />
             </label>
