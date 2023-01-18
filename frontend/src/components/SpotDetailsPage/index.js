@@ -26,23 +26,21 @@ const SpotDetails = ({currentSpot}) => {
     const [owner, setOwner] = useState(useSelector(state => state.spot.Owner));
     const { avg, setAvg, spot, setSpot} = useSpot();
     const singleSpot = useSelector(state => state.spot)
-    const [spotImages, setSpotImages] = useState(useSelector(state => state.spot.spotImages))
+    const images = useSelector(state => state.spot.SpotImages)
 
     useEffect(() => {
-        const initialLoad = async (spotId, getSpotReviews) =>
+        const initialLoad =  () =>
         {
         const newSpot = dispatch(findSpot(spotId))
-        console.log("spot", spot)
-        setSpot(newSpot)
-        const initReviews = await dispatch(getSpotReviews(spotId))
+        setSpot(newSpot);
+        const initReviews = dispatch(getSpotReviews(spotId))
         setReviews(Object.values(initReviews))
-        console.log("owner", spot.Owner)
         setOwner(spot.Owner)
         }
         setIsLoaded(false)
         initialLoad(spotId, getSpotReviews)
         setIsLoaded(true)
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         setIsLoaded(false)
@@ -120,12 +118,19 @@ const SpotDetails = ({currentSpot}) => {
         </div>
         <div id='images-container'>
             <div id="spot-image-list">
-                {     spot.SpotImages &&
+                {     spot.SpotImages ?
                       spot.SpotImages.map((img) => (
                         <div className='image' key={img.id}>
                             <img className='image' src={img.url} alt={"img.jpg"} />
                         </div>
-                      ))
+                      )) :
+
+                        currentSpot.SpotImages.map((img) => (
+                            <div className='image' key={img.id}>
+                                <img className='image' src={img.url} alt={"img.jpg"} />
+                            </div>
+                          ))
+                      
                 }
             </div>
         </div>

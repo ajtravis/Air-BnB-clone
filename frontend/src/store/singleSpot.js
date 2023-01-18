@@ -13,7 +13,6 @@ export const selectSpot = (spot) => {
 export const resetSpot = () => {
     return {
         type: RESET,
-
     }
 }
 

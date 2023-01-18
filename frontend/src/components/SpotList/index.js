@@ -4,6 +4,7 @@ import SpotCard from '../SpotCard';
 import "./SpotList.css"
 import { findSpot } from '../../store/singleSpot';
 import { getAllSpots } from '../../store/spots';
+import { resetSpot } from '../../store/singleSpot';
 
 const SpotList = () => {
     const dispatch = useDispatch()
@@ -19,6 +20,7 @@ const SpotList = () => {
 
     useEffect(() => {
         console.log("spots useEffect is running");
+        dispatch(resetSpot())
         dispatch(getAllSpots());
         setSpots(Object.values(allSpots))
       }, [dispatch]);
