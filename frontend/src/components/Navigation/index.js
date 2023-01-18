@@ -11,7 +11,10 @@ function Navigation({ isLoaded }){
   return (
     <div className="navBar">
       <NavLink exact to={"/"}>
-      <img className='logo' src={logo} alt="logo.png"/>
+      <div className='logo-name'>
+        <img className='logo' src={logo} alt="logo.png"/>
+        <h2 className='site-name' >al-bnb</h2>
+      </div>
       </NavLink>
       <ul className='menu'>
         <li>
