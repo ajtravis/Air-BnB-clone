@@ -3,6 +3,7 @@ import { findSpot } from "../../store/singleSpot";
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useSpot } from "../../context/spot";
 
 
 
@@ -12,11 +13,13 @@ const SpotCard = ({id, city, state, avgRating, price, previewImage}) => {
     const allSpots = useSelector((state) => state.spots)
     // avgRating = Math.round(avgRating * 100)/100
     const dispatch = useDispatch()
+    const { setSpot } = useSpot()
 
     let history = useHistory();
 
     const handleClick = () => {
-        dispatch(findSpot(id));
+        setSpot(dispatch(findSpot(id)));
+        console.log("setting spot context")
         history.push(`/spots/${id}`)
     }
     return (

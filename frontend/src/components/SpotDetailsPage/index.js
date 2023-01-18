@@ -26,7 +26,23 @@ const SpotDetails = ({currentSpot}) => {
     const [owner, setOwner] = useState(useSelector(state => state.spot.Owner));
     const { avg, setAvg, spot, setSpot} = useSpot();
     const singleSpot = useSelector(state => state.spot)
+    const [spotImages, setSpotImages] = useState(useSelector(state => state.spot.spotImages))
 
+    useEffect(() => {
+        const initialLoad = async (spotId, getSpotReviews) =>
+        {
+        const newSpot = dispatch(findSpot(spotId))
+        console.log("spot", spot)
+        setSpot(newSpot)
+        const initReviews = await dispatch(getSpotReviews(spotId))
+        setReviews(Object.values(initReviews))
+        console.log("owner", spot.Owner)
+        setOwner(spot.Owner)
+        }
+        setIsLoaded(false)
+        initialLoad(spotId, getSpotReviews)
+        setIsLoaded(true)
+    }, [])
 
     useEffect(() => {
         setIsLoaded(false)
@@ -62,13 +78,7 @@ const SpotDetails = ({currentSpot}) => {
 
       }, [spotId, spotReviews]);
 
-      useEffect(() => {
 
-        dispatch(findSpot(spotId))
-            .then(() => setSpot(singleSpot))
-            .then(() => dispatch(getSpotReviews(spotId)))
-            .then(() => setOwner(spot.Owner))
-    }, [])
 
     const deleteHandler = (e) => {
         dispatch(deleteSpotThunk(spotId))
@@ -97,12 +107,12 @@ const SpotDetails = ({currentSpot}) => {
                 <div> {reviews.length} reviews</div>
                 <div>{spot.city}</div> <div>{spot.state}</div> <div>{spot.country}</div>
                 {
-                (user && user.id === owner.id) ?
+                (user && user.id === spot.ownerId) ?
                 <button onClick={deleteHandler}>Delete Spot</button> :
                 <></>
                 }
                 {
-                (user && user.id === owner.id) ?
+                (user && user.id === spot.ownerId) ?
                 <button onClick={updateHandler}>Update Spot</button> :
                 <></>
                 }
@@ -110,7 +120,7 @@ const SpotDetails = ({currentSpot}) => {
         </div>
         <div id='images-container'>
             <div id="spot-image-list">
-                {
+                {     spot.SpotImages &&
                       spot.SpotImages.map((img) => (
                         <div className='image' key={img.id}>
                             <img className='image' src={img.url} alt={"img.jpg"} />
@@ -121,7 +131,7 @@ const SpotDetails = ({currentSpot}) => {
         </div>
         <div className='spotInfo'>
             <div className='info'>
-                <h2>Entire home hosted by {owner.firstName ? owner.firstName : "Anonymous"}</h2>
+                <h2>Entire home hosted by {spot.Owner ? spot.Owner.firstName : "Anonymous"}</h2>
                 <div id="description">
                     <p>{spot.description}</p>
                 </div>
