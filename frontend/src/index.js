@@ -12,6 +12,10 @@ import { restoreCSRF, csrfFetch } from "./store/csrf";
 import * as sessionActions from './store/session';
 import * as spotActions from './store/spots';
 import SpotProvider from './context/spot';
+import Favicon from 'react-favicon';
+
+
+
 
 const store = configureStore();
 
@@ -30,7 +34,7 @@ if (process.env.NODE_ENV !== "production") {
 // HTML elements on top of the all the other HTML elements:
 function Root() {
   return (
-    
+    <>
     <ModalProvider>
       <Provider store={store}>
         <SpotProvider>
@@ -41,10 +45,12 @@ function Root() {
         </SpotProvider>
       </Provider>
     </ModalProvider>
+    </>
   );
 }
 
 ReactDOM.render(
+
   <React.StrictMode>
     <Root />
   </React.StrictMode>,

@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/ajtravis/Air-BnB-clone/issues"
   },
-  "homepage": "https://github.com/ajtravis/Air-BnB-clone#readme"
+  "homepage": "https://github.com/ajtravis/Air-BnB-clone#readme",
+  "dependencies": {
+    "react-favicon": "^1.0.1"
+  }
 }
