@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addSpot } from '../../store/spots'
+import { addSpot, getAllSpots } from '../../store/spots'
 import { useHistory } from 'react-router-dom';
 import './addspot.css'
 
@@ -26,7 +26,8 @@ const AddSpotForm = () => {
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
-            });
+            })
+            .then(() => dispatch(getAllSpots()))
         history.push('/');
     }
 
