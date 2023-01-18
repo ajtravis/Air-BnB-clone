@@ -63,7 +63,7 @@ function ProfileButton({ user }) {
               <button id="logout" onClick={logout}>Log Out</button>
             </li>
             <li>
-              <NavLink to='/spots/addSpot'
+              <NavLink to='/addSpotForm'
               onClick={closeMenu}
               >List a spot</NavLink>
             </li>
