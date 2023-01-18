@@ -41,7 +41,7 @@ const SpotDetails = ({currentSpot}) => {
         //     .then(() => setIsLoaded(true))
         dispatch(findSpot(spotId))
             .then(() => console.log("useEffect1", "loadedSpot", loadedSpot))
-            .then(() =>setReviews(Object.values(spotReviews)))
+            .then(() => setReviews(Object.values(spotReviews)))
             .then(() => setSpot(singleSpot))
             .then(() => setAvg(spot.avgStarRating))
             .then(() => setIsLoaded(true))
@@ -63,10 +63,11 @@ const SpotDetails = ({currentSpot}) => {
       }, [spotId, spotReviews]);
 
       useEffect(() => {
-       dispatch(getSpotReviews(spotId))
-       dispatch(findSpot(spotId))
 
-
+        dispatch(findSpot(spotId))
+            .then(() => setSpot(singleSpot))
+            .then(() => dispatch(getSpotReviews(spotId)))
+            .then(() => setOwner(spot.Owner))
     }, [])
 
     const deleteHandler = (e) => {
