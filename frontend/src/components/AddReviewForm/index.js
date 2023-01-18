@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch,  } from 'react-redux';
 import {useHistory} from 'react-router-dom'
 import { postReview } from '../../store/reviews'
+import { findSpot } from '../../store/singleSpot';
 import './ReviewForm.css'
 
 const AddReviewForm = () => {
@@ -27,7 +28,8 @@ const AddReviewForm = () => {
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
-            });
+            })
+            
         history.push(`/spots/${spotId}`);
     }
 

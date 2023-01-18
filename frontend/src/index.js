@@ -10,7 +10,8 @@ import App from './App'
 import configureStore from './store';
 import { restoreCSRF, csrfFetch } from "./store/csrf";
 import * as sessionActions from './store/session';
-import * as spotActions from './store/spots'
+import * as spotActions from './store/spots';
+import SpotProvider from './context/spot';
 
 const store = configureStore();
 
@@ -31,10 +32,12 @@ function Root() {
   return (
     <ModalProvider>
       <Provider store={store}>
-        <BrowserRouter>
-          <App />
-          <Modal />
-        </BrowserRouter>
+        <SpotProvider>
+          <BrowserRouter>
+            <App />
+            <Modal />
+          </BrowserRouter>
+        </SpotProvider>
       </Provider>
     </ModalProvider>
   );

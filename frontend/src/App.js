@@ -30,13 +30,13 @@ function App() {
           <Route exact path={'/'}>
             <SpotList />
           </Route>
-          <Route path={`/spots/${spotId}`}>
-            <SpotDetails />
+          <Route exact path={`/spots/:spotId`}>
+            <SpotDetails currentSpot={spot}/>
           </Route>
           <Route path={'/spots/addSpot'}>
             <AddSpotForm />
           </Route>
-          <Route path={`/spots/update`}>
+          <Route path={`/spots/:spotId/update`}>
             <UpdateSpotForm />
           </Route>
           <Route path={'/reviewForm'}>

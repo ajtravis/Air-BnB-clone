@@ -1,11 +1,19 @@
 import { csrfFetch } from './csrf';
 
 const SELECT_SPOT = 'spot/selectSpot'
+const RESET = 'spot/reset'
 
 export const selectSpot = (spot) => {
     return {
         type: SELECT_SPOT,
         spot,
+    }
+}
+
+export const resetSpot = () => {
+    return {
+        type: RESET,
+
     }
 }
 
@@ -27,6 +35,9 @@ export default function singleSpotReducer(state = {}, action) {
             newState[action.spot.id] = { ...state[action.spot.id], ...action.spot }
             return newState[action.spot.id];
         }
+        case RESET:
+            return {};
+
 
         default: return state
     }

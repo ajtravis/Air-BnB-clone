@@ -10,15 +10,17 @@ const SpotList = () => {
 
     const allSpots = useSelector((state) => state.spots)
 
-    const spots = Object.values(allSpots)
+    const [spots, setSpots] = useState(Object.values(allSpots))
 
 
-
+    useEffect(() => {
+        setSpots(Object.values(allSpots))
+      }, [allSpots]);
 
     useEffect(() => {
         console.log("spots useEffect is running");
         dispatch(getAllSpots());
-
+        setSpots(Object.values(allSpots))
       }, [dispatch]);
 
 

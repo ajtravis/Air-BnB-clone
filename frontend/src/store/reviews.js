@@ -22,7 +22,8 @@ export const addReview = (review) => {
 export const deleteReview = (reviewId) => {
     return {
         type: DELETE_REVIEW,
-        payload: reviewId,
+        reviewId,
+
     }
 }
 
@@ -70,7 +71,6 @@ const reviewReducer = (state = {}, action) => {
             reviewsArr.forEach(ele => {
                 allReviews[ele.id] = ele;
             });
-            console.log(allReviews)
             return {
                 ...allReviews
             }
@@ -82,7 +82,7 @@ const reviewReducer = (state = {}, action) => {
         };
         case DELETE_REVIEW: {
             const newState = {...state}
-            delete newState[action.payload];
+            delete newState[action.reviewId];
             return newState;
         }
 

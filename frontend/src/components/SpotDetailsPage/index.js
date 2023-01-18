@@ -1,43 +1,81 @@
 import React, { useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { deleteSpotThunk, editSpot } from '../../store/spots'
+import { deleteSpotThunk, editSpot, getAllSpots } from '../../store/spots'
 import { useHistory, Redirect } from 'react-router-dom';
 import SpotReviewsComponent from '../SpotReviewsComponent';
 import { getSpotReviews } from '../../store/reviews';
-import { findSpot } from '../../store/singleSpot';
+import { findSpot, resetSpot } from '../../store/singleSpot';
 import { useParams } from "react-router-dom";
+import { useSpot } from '../../context/spot';
 import './spotDetails.css'
 
 
-const SpotDetails = () => {
+
+
+const SpotDetails = ({currentSpot}) => {
 
 
     const dispatch = useDispatch();
     const history = useHistory();
     const {spotId} = useParams()
     const [isLoaded, setIsLoaded] = useState(false)
-    const [spot, setSpot] = useState(useSelector((state) => state.spot))
+    const loadedSpot = useSelector((state) => state.spot)
+    const [user, setUser] = useState(useSelector((state) => state.session.user))
+    const spotReviews = useSelector((state) => state.reviews)
+    const [reviews, setReviews] = useState(Object.values(spotReviews))
+    const [owner, setOwner] = useState(useSelector(state => state.spot.Owner));
+    const { avg, setAvg, spot, setSpot} = useSpot();
+    const singleSpot = useSelector(state => state.spot)
+
 
     useEffect(() => {
-        console.log("reviews useEffect is running");
-        dispatch(findSpot(spot.id))
-            .then(() => dispatch(getSpotReviews(spot.id)))
+        setIsLoaded(false)
+        // const reviewLoader = async () => {
+        //     setReviews(Object.values(spotReviews))
+        // }
+        // reviewLoader()
+        //     .then(() => setIsLoaded(true))
+        // dispatch(findSpot(spotId))
+        //     .then(() => setReviews(Object.values(spotReviews)))
+        //     .then(() => setAvg(spot.avgStarRating))
+        //     .then(() => setIsLoaded(true))
+        dispatch(findSpot(spotId))
+            .then(() => console.log("useEffect1", "loadedSpot", loadedSpot))
+            .then(() =>setReviews(Object.values(spotReviews)))
+            .then(() => setSpot(singleSpot))
+            .then(() => setAvg(spot.avgStarRating))
             .then(() => setIsLoaded(true))
-      }, [spot, dispatch]);
+        console.log("avg1", avg)
+    }, [spotReviews, avg])
+
+    useEffect(() => {
+        console.log("details useEffect is running");
+        console.log("spotId", spotId)
+        setIsLoaded(false)
+        dispatch(findSpot(spotId))
+            .then(() => console.log("useEffect2"))
+            .then(() => setSpot(singleSpot))
+            .then(() => setOwner(spot.Owner))
+            .then(() => setAvg(spot.avgStarRating))
+            .then(() => setIsLoaded(true))
 
 
-    const user = useSelector((state) => state.session.user)
-    const owner = spot.Owner;
-    const spotReviews = useSelector((state) => state.reviews)
-    const reviews = Object.values(spotReviews)
+      }, [spotId, spotReviews]);
+
+      useEffect(() => {
+       dispatch(getSpotReviews(spotId))
+       dispatch(findSpot(spotId))
+
+
+    }, [])
 
     const deleteHandler = (e) => {
-        dispatch(deleteSpotThunk(spot.id))
+        dispatch(deleteSpotThunk(spotId))
         history.push('/')
     };
 
     const updateHandler = (e) => {
-       history.push(`/spots/update`)
+       history.push(`/spots/${spotId}/update`)
     };
 
     const reviewHandler = (e) => {
@@ -55,8 +93,8 @@ const SpotDetails = () => {
                     <i className="fa-sharp fa-solid fa-star"></i>
                     {Math.round(spot.avgStarRating * 100)/100}
                 </div>
-                <div> {spot.numReviews} reviews</div>
-                <div>{spot.city}, {spot.state}, {spot.country}</div>
+                <div> {reviews.length} reviews</div>
+                <div>{spot.city}</div> <div>{spot.state}</div> <div>{spot.country}</div>
                 {
                 (user && user.id === owner.id) ?
                 <button onClick={deleteHandler}>Delete Spot</button> :
@@ -93,14 +131,14 @@ const SpotDetails = () => {
                         <div className="reviews2">
                         <i className="fa-sharp fa-solid fa-star"></i>
                         <div>{Math.round(spot.avgStarRating * 100)/100}</div>
-                        <div> {spot.numReviews} reviews</div>
+                        <div> {reviews.length} reviews</div>
                         </div>
                     </div>
 
             </div>
         </div>
             <div className='spotReviews'>
-            <SpotReviewsComponent reviews={reviews} />
+            <SpotReviewsComponent reviews={reviews}/>
             </div>
             { user &&
             <button className='add-review' onClick={reviewHandler}>Write a review</button>

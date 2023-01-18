@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { deleteReviewThunk } from '../../store/reviews';
+import { deleteReviewThunk, getSpotReviews } from '../../store/reviews';
+import { useParams } from 'react-router-dom';
 import "./reviewCard.css"
+import { findSpot, resetSpot } from '../../store/singleSpot';
+import { useSpot } from '../../context/spot';
 
 const ReviewCard = (props) => {
-    const  reviewData  = props.reviewData;
+    const reviewData  = props.reviewData;
     const createdAt = reviewData.createdAt;
     const date = String(createdAt);
     const dateSplit = date.split("-");
@@ -17,8 +20,17 @@ const ReviewCard = (props) => {
     "August","September","October","November","December"]
     const monthName = monthsArr[month - 1]
     const dispatch = useDispatch();
+    const spotId = useParams();
+    const id = spotId.spotId
+    const { avg, setAvg } = useSpot();
+    const [spot, setSpot] = useState(useSelector((state) => state.spot))
+
+
     const handleDelete = () => {
         dispatch(deleteReviewThunk({reviewId: props.reviewData.id}))
+            .then(()=> setSpot(dispatch(findSpot(spotId))))
+            .then(() => dispatch(getSpotReviews(id)))
+            .then(() => setAvg(spot.avgStarRating))
     }
 
     return (

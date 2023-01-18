@@ -2,13 +2,16 @@ import React, { useState } from 'react'
 import { useDispatch } from "react-redux";
 import {useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { editSpot, deleteSpot } from '../../store/spots';
+import { editSpot, deleteSpot, getAllSpots } from '../../store/spots';
+import { findSpot } from '../../store/singleSpot';
+import { useParams } from 'react-router-dom';
 import "../AddSpotForm/addspot.css"
 
 const UpdateSpotForm = () => {
-    const spot = useSelector((state) => state.spot)
+
     const dispatch = useDispatch();
     const history = useHistory()
+    const [spot, setSpot] = useState(useSelector((state) => state.spot))
     const [address, setAddress] = useState(spot.address);
     const [city, setCity] = useState(spot.city);
     const [state, setState] = useState(spot.state);
@@ -22,8 +25,10 @@ const UpdateSpotForm = () => {
     const [errors, setErrors] = useState([]);
 
     const id = spot.id
+    const param = useParams();
+    const spotId = param.spotId
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors([]);
         dispatch(editSpot({id, address, city, state, country, lat, lng, name, description, price}))
@@ -31,7 +36,8 @@ const UpdateSpotForm = () => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             });
-        history.push('/')
+        console.log(spotId)
+        history.push(`/spots/${spotId}`)
         }
 
     const handleCancel = (e) => {
