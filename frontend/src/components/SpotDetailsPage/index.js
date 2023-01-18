@@ -88,7 +88,11 @@ const SpotDetails = ({currentSpot}) => {
     };
 
     const reviewHandler = (e) => {
+        const userReview = reviews.find(ele => ele.userId === user.id)
+        if(userReview)  {return(window.alert("user already has review for this spot"))}
+        else{
         history.push(`/reviewForm`)
+        }
     }
 
     return (
