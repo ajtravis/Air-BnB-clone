@@ -96,14 +96,14 @@ const SpotDetails = ({currentSpot}) => {
         {isLoaded &&
        <div id='details-page-container'>
         <div className='head'>
-            <h1>{spot.name}</h1>
+            <h1>{currentSpot.name}</h1>
             <div className='head-details'>
                 <div>
                     <i className="fa-sharp fa-solid fa-star"></i>
-                    {spot.avgStarRating? Math.round(spot.avgStarRating * 100)/100 : 0}
+                    {currentSpot.avgStarRating? Math.round(currentSpot.avgStarRating * 100)/100 : 0}
                 </div>
                 <div> {reviews.length} reviews</div>
-                <div>{spot.city}</div> <div>{spot.state}</div> <div>{spot.country}</div>
+                <div>{currentSpot.city}</div> <div>{currentSpot.state}</div> <div>{currentSpot.country}</div>
                 {
                 (user && user.id === spot.ownerId) ?
                 <button onClick={deleteHandler}>Delete Spot</button> :
@@ -130,7 +130,7 @@ const SpotDetails = ({currentSpot}) => {
                                 <img className='image' src={img.url} alt={"img.jpg"} />
                             </div>
                           ))
-                      
+
                 }
             </div>
         </div>
@@ -142,15 +142,14 @@ const SpotDetails = ({currentSpot}) => {
                 </div>
             </div>
             <div className='moreInfo'>
-                    <div>${spot.price} night</div>
+                    <div>${currentSpot.price} night</div>
                     <div>
                         <div className="reviews2">
                         <i className="fa-sharp fa-solid fa-star"></i>
-                        <div>{spot.avgStarRating? Math.round(spot.avgStarRating * 100)/100 : 0}</div>
+                        <div>{currentSpot.avgStarRating? Math.round(currentSpot.avgStarRating * 100)/100 : 0}</div>
                         <div> {reviews.length} reviews</div>
                         </div>
                     </div>
-
             </div>
         </div>
             <div className='spotReviews'>
