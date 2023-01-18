@@ -76,6 +76,8 @@ a {
     height: 80px;
     box-sizing: border-box;
     justify-content: space-between;
+    padding-left: 2%;
+    padding-right: 2%;
 }
 
 #logout {
