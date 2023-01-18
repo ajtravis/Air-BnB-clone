@@ -5,7 +5,8 @@
 .menu  {
     list-style: none;
     float: right;
-    margin-right: 30px
+    margin-right: 50px;
+
 }
 
 
@@ -22,6 +23,7 @@
     border-radius: 10px;
     padding-inline-start: 0px;
     background-color: white;
+    position: absolute;
 }
 
 .profile-dropdown > li {
@@ -62,16 +64,18 @@ a {
 .user-button {
     border-radius: 15px;
     border: solid 1px rgba(167, 165, 165, .5);
-    padding: 5px auto;
+    margin: 5px auto;
     background-color: transparent;
     height: 30px;
 }
 
 .navBar {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    display: flex;
     width: 100%;
     height: 80px;
     box-sizing: border-box;
+    justify-content: space-between;
 }
 
 #logout {
@@ -83,13 +87,22 @@ a {
 }
 
 .logo {
-    height: 50px;
+    height: 60px;
     margin-top: 10px;
-    margin-left: 20px;
+    margin-left: 30px;
 }
 
-.menu > *:hover {
+.button-item :hover {
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
+.logo-name {
+    display: flex
+}
 
+.site-name {
+    padding-top: 10px;
+    color: red;
+    font-family: Arial;
+    font-size: 22px;
+}

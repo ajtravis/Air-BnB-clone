@@ -3,14 +3,17 @@
     display: flex;
     flex-wrap: wrap;
     justify-content:space-evenly;
+    padding-left: 0px ;
+    margin-right: 50px;
+    margin-left: 50px;
 
 }
 
 .card {
-    width: 200px;
-    height: 300px;
+    width: 15%;
+    height: 450px;
     margin: 10px;
     box-sizing: border-box;
     display: block;
-    
+
 }

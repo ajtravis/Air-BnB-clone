@@ -10,15 +10,17 @@ function Navigation({ isLoaded }){
 
   return (
     <div className="navBar">
-      <NavLink exact to={"/"}>
+      <NavLink className={"logo-name"} exact to={"/"}>
       <img className='logo' src={logo} alt="logo.png"/>
+      <h2 className={"site-name"}>al-BnB</h2>
       </NavLink>
+
       <ul className='menu'>
         <li>
           <NavLink exact to="/">Home</NavLink>
         </li>
         {isLoaded && (
-          <li>
+          <li className='button-item'>
             <ProfileButton user={sessionUser} />
           </li>
         )}
