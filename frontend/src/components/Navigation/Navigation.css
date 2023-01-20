@@ -69,6 +69,11 @@ a {
     height: 30px;
 }
 
+.user-button:hover {
+    box-shadow: -5px 5px 5px gray;
+    cursor: pointer;
+}
+
 .navBar {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     display: flex;
