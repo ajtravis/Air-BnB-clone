@@ -63,6 +63,7 @@ const SpotDetails = ({currentSpot}) => {
     // }, [spotReviews, avg])
 
     useEffect(() => {
+         
         console.log("details useEffect is running");
         console.log("spotId", spotId)
         setIsLoaded(false)
