@@ -110,12 +110,12 @@ const SpotDetails = ({currentSpot}) => {
                 <div> {reviews.length} reviews</div>
                 <div>{currentSpot.city}</div> <div>{currentSpot.state}</div> <div>{currentSpot.country}</div>
                 {
-                (user && user.id === spot.ownerId) ?
+                (user && user.id === currentSpot.ownerId) ?
                 <button onClick={deleteHandler}>Delete Spot</button> :
                 <></>
                 }
                 {
-                (user && user.id === spot.ownerId) ?
+                (user && user.id === currentSpot.ownerId) ?
                 <button onClick={updateHandler}>Update Spot</button> :
                 <></>
                 }
@@ -141,7 +141,7 @@ const SpotDetails = ({currentSpot}) => {
         </div>
         <div className='spotInfo'>
             <div className='info'>
-                <h2>Entire home hosted by {spot.Owner ? spot.Owner.firstName : "Anonymous"}</h2>
+                <h2>Entire home hosted by {spot.Owner ? spot.Owner.firstName : currentSpot.Owner.firstName}</h2>
                 <div id="description">
                     <p>{spot.description}</p>
                 </div>
