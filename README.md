@@ -15,4 +15,18 @@ So far this site has full CRUD (create, read, update, delete) features for spot 
 (note: must be logged in as a user to post reviews or to use any spot features other than read).
 
 Features to implement in the future:
-    
+    -User Profile page
+    -404 page
+    -search bar
+    -booking feature
+    -spotImages feature
+    -review images feature
+
+To run locally follow these steps:
+    -download repo
+    -run npm install in both backend and frontend directories
+    -run npm start in backend
+    -run npm start in backend
+    -navigate browser to localhost:3000
+
+Contact info: ajtravis2@gmail.com
