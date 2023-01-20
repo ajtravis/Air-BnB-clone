@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { deleteSpotThunk, editSpot, getAllSpots } from '../../store/spots'
+import { deleteSpotThunk, editSpot, getAllSpots, resetAllSpots } from '../../store/spots'
 import { useHistory, Redirect } from 'react-router-dom';
 import SpotReviewsComponent from '../SpotReviewsComponent';
 import { getSpotReviews } from '../../store/reviews';
@@ -86,8 +86,9 @@ const SpotDetails = ({currentSpot}) => {
 
     const deleteHandler = (e) => {
         dispatch(deleteSpotThunk(spotId))
-        dispatch(getAllSpots())
-        history.push('/')
+        .then(() => dispatch(resetAllSpots()))
+        .then(() => dispatch(getAllSpots()))
+        .then(() => history.push('/'))
     };
 
     const updateHandler = (e) => {

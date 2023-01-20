@@ -6,6 +6,7 @@ const LOAD_SPOTS = 'spots/loadSpots';
 const ADD_SPOT = 'spots/addSpot'
 const DELETE_SPOT = 'spots/delete'
 const UPDATE_SPOT = "spot/updateSpot";
+const RESET_SPOTS = "spots/resetSpots"
 
 
 // action creators
@@ -37,6 +38,11 @@ export const updateSpot = (spot) => {
     };
   };
 
+export const resetAllSpots = () => {
+    return {
+        type: RESET_SPOTS,
+    }
+}
 
 // thunks
 export const getAllSpots = () => async (dispatch) => {
@@ -139,6 +145,10 @@ const spotsReducer = (state = initialState, action) => {
             newState[id] = updatedSpot;
             return newState;
         };
+
+        case RESET_SPOTS: {
+            return {};
+        }
 
       default:
         return state;
