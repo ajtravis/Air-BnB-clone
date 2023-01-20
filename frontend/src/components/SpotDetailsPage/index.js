@@ -86,6 +86,7 @@ const SpotDetails = ({currentSpot}) => {
 
     const deleteHandler = (e) => {
         dispatch(deleteSpotThunk(spotId))
+        dispatch(getAllSpots())
         history.push('/')
     };
 
