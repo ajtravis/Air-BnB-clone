@@ -29,7 +29,7 @@ const SpotDetails = ({currentSpot}) => {
     const images = useSelector(state => state.spot.SpotImages)
 
     useEffect(() => {
-        const initialLoad =  () =>
+        const initialLoad = () =>
         {
         const newSpot = dispatch(findSpot(spotId))
         setSpot(newSpot);
@@ -38,7 +38,7 @@ const SpotDetails = ({currentSpot}) => {
         setOwner(spot.Owner)
         }
         setIsLoaded(false)
-        initialLoad(spotId, getSpotReviews)
+        initialLoad()
         setIsLoaded(true)
     }, [dispatch])
 
@@ -75,7 +75,7 @@ const SpotDetails = ({currentSpot}) => {
             .then(() => setIsLoaded(true))
 
 
-      }, [spotId, spotReviews]);
+      }, [spotId, spotReviews, ]);
 
 
 
