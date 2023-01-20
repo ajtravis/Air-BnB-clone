@@ -42,25 +42,25 @@ const SpotDetails = ({currentSpot}) => {
         setIsLoaded(true)
     }, [dispatch])
 
-    useEffect(() => {
-        setIsLoaded(false)
-        // const reviewLoader = async () => {
-        //     setReviews(Object.values(spotReviews))
-        // }
-        // reviewLoader()
-        //     .then(() => setIsLoaded(true))
-        // dispatch(findSpot(spotId))
-        //     .then(() => setReviews(Object.values(spotReviews)))
-        //     .then(() => setAvg(spot.avgStarRating))
-        //     .then(() => setIsLoaded(true))
-        dispatch(findSpot(spotId))
-            .then(() => console.log("useEffect1", "loadedSpot", loadedSpot))
-            .then(() => setReviews(Object.values(spotReviews)))
-            .then(() => setSpot(singleSpot))
-            .then(() => setAvg(spot.avgStarRating))
-            .then(() => setIsLoaded(true))
-        console.log("avg1", avg)
-    }, [spotReviews, avg])
+    // useEffect(() => {
+    //     setIsLoaded(false)
+    //     // const reviewLoader = async () => {
+    //     //     setReviews(Object.values(spotReviews))
+    //     // }
+    //     // reviewLoader()
+    //     //     .then(() => setIsLoaded(true))
+    //     // dispatch(findSpot(spotId))
+    //     //     .then(() => setReviews(Object.values(spotReviews)))
+    //     //     .then(() => setAvg(spot.avgStarRating))
+    //     //     .then(() => setIsLoaded(true))
+    //     dispatch(findSpot(spotId))
+    //         .then(() => console.log("useEffect1", "loadedSpot", loadedSpot))
+    //         .then(() => setReviews(Object.values(spotReviews)))
+    //         .then(() => setSpot(singleSpot))
+    //         .then(() => setAvg(spot.avgStarRating))
+    //         .then(() => setIsLoaded(true))
+    //     console.log("avg1", avg)
+    // }, [spotReviews, avg])
 
     useEffect(() => {
         console.log("details useEffect is running");
@@ -69,6 +69,7 @@ const SpotDetails = ({currentSpot}) => {
         dispatch(findSpot(spotId))
             .then(() => console.log("useEffect2"))
             .then(() => setSpot(singleSpot))
+            .then(() => setReviews(Object.values(spotReviews)))
             .then(() => setOwner(spot.Owner))
             .then(() => setAvg(spot.avgStarRating))
             .then(() => setIsLoaded(true))
