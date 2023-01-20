@@ -28,7 +28,7 @@ const ReviewCard = (props) => {
 
     const handleDelete = () => {
         dispatch(deleteReviewThunk({reviewId: props.reviewData.id}))
-            .then(()=> setSpot(dispatch(findSpot(spotId))))
+            // .then(()=> setSpot(dispatch(findSpot(spotId))))
             .then(() => dispatch(getSpotReviews(id)))
             .then(() => setAvg(spot.avgStarRating))
     }

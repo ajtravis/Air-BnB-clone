@@ -63,7 +63,7 @@ const SpotDetails = ({currentSpot}) => {
     // }, [spotReviews, avg])
 
     useEffect(() => {
-         
+
         console.log("details useEffect is running");
         console.log("spotId", spotId)
         setIsLoaded(false)
@@ -76,9 +76,13 @@ const SpotDetails = ({currentSpot}) => {
             .then(() => setIsLoaded(true))
 
 
-      }, [spotId, spotReviews, ]);
+      }, [spotId, ]);
 
-
+      useEffect(() => {
+        dispatch(findSpot(spotId))
+        .then(() => setReviews(Object.values(spotReviews)))
+        .then(() => setAvg(spot.avgStarRating))
+      }, [spotReviews, ]);
 
     const deleteHandler = (e) => {
         dispatch(deleteSpotThunk(spotId))
