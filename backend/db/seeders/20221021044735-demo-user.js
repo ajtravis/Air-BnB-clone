@@ -30,6 +30,48 @@ module.exports = {
         hashedPassword: bcrypt.hashSync('password3'),
         firstName: 'Chuck',
         lastName: 'Testa'
+      },
+      {
+        email: 'harrypotter@example.com',
+        username: 'TheBoyWhoLived',
+        hashedPassword: bcrypt.hashSync('hogwarts123'),
+        firstName: 'Harry',
+        lastName: 'Potter'
+      },
+      {
+        email: 'daenerys@example.com',
+        username: 'MotherOfDragons',
+        hashedPassword: bcrypt.hashSync('fireandblood'),
+        firstName: 'Daenerys',
+        lastName: 'Targaryen'
+      },
+      {
+        email: 'tonystark@example.com',
+        username: 'IronMan',
+        hashedPassword: bcrypt.hashSync('jarvis456'),
+        firstName: 'Tony',
+        lastName: 'Stark'
+      },
+      {
+        email: 'lukeskywalker@example.com',
+        username: 'JediMaster',
+        hashedPassword: bcrypt.hashSync('lightsaber789'),
+        firstName: 'Luke',
+        lastName: 'Skywalker'
+      },
+      {
+        email: 'hermionegranger@example.com',
+        username: 'BookWorm',
+        hashedPassword: bcrypt.hashSync('spellsandbooks'),
+        firstName: 'Hermione',
+        lastName: 'Granger'
+      },
+      {
+        email: 'michaelscott@example.com',
+        username: 'That\'sWhatSheSaid',
+        hashedPassword: bcrypt.hashSync('worldsbestboss'),
+        firstName: 'Michael',
+        lastName: 'Scott'
       }
     ], {});
   },
