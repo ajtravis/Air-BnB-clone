@@ -99,11 +99,11 @@ module.exports = {
         url: 'https://a0.muscache.com/im/pictures/miso/Hosting-726157512783221345/original/7b4d4126-5c24-4fb4-a769-ba94230fc3ed.jpeg?im_w=720',
         preview: true
       },
-      {
-        spotId: 19,
-        url: 'https://a0.muscache.com/im/pictures/prohost-api/Hosting-724802297486500821/original/b38bdc15-c056-4546-b840-468d6ab2e15f.jpeg?im_w=720',
-        preview: true
-      },
+      // {
+      //   spotId: 19,
+      //   url: 'https://a0.muscache.com/im/pictures/prohost-api/Hosting-724802297486500821/original/b38bdc15-c056-4546-b840-468d6ab2e15f.jpeg?im_w=720',
+      //   preview: true
+      // },
 
     ], {});
   },

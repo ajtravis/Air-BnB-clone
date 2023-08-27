@@ -226,42 +226,42 @@ module.exports = {
         description: 'Escape to the mountains in this cozy cabin',
         price: 199.99
       },
-      {
-        ownerId: 5,
-        address: '2323 Desert Retreat Blvd',
-        city: 'Scottsdale',
-        state: 'Arizona',
-        country: 'US',
-        lat: 33.49417,
-        lng: -111.92605,
-        name: 'Desert Oasis Villa',
-        description: 'Relax in luxury in the heart of the desert',
-        price: 549.99
-      },
-      {
-        ownerId: 6,
-        address: '2424 Seaside Bungalow Ave',
-        city: 'Santa Monica',
-        state: 'California',
-        country: 'US',
-        lat: 34.02244,
-        lng: -118.49591,
-        name: 'Charming Seaside Bungalow',
-        description: 'Quaint bungalow just steps from the beach',
-        price: 299.99
-      },
-      {
-        ownerId: 5,
-        address: '2525 Mountain View Rd',
-        city: 'Denver',
-        state: 'Colorado',
-        country: 'US',
-        lat: 39.73915,
-        lng: -104.99025,
-        name: 'Mountain View Retreat',
-        description: 'Enjoy stunning mountain views from this modern home',
-        price: 319.99
-      },
+      // {
+      //   ownerId: 5,
+      //   address: '2323 Desert Retreat Blvd',
+      //   city: 'Scottsdale',
+      //   state: 'Arizona',
+      //   country: 'US',
+      //   lat: 33.49417,
+      //   lng: -111.92605,
+      //   name: 'Desert Oasis Villa',
+      //   description: 'Relax in luxury in the heart of the desert',
+      //   price: 549.99
+      // },
+      // {
+      //   ownerId: 6,
+      //   address: '2424 Seaside Bungalow Ave',
+      //   city: 'Santa Monica',
+      //   state: 'California',
+      //   country: 'US',
+      //   lat: 34.02244,
+      //   lng: -118.49591,
+      //   name: 'Charming Seaside Bungalow',
+      //   description: 'Quaint bungalow just steps from the beach',
+      //   price: 299.99
+      // },
+      // {
+      //   ownerId: 5,
+      //   address: '2525 Mountain View Rd',
+      //   city: 'Denver',
+      //   state: 'Colorado',
+      //   country: 'US',
+      //   lat: 39.73915,
+      //   lng: -104.99025,
+      //   name: 'Mountain View Retreat',
+      //   description: 'Enjoy stunning mountain views from this modern home',
+      //   price: 319.99
+      // },
 
     ], {});
   },

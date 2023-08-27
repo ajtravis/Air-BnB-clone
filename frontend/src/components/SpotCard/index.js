@@ -35,8 +35,8 @@ const SpotCard = ({id, city, state, avgRating, price, previewImage}) => {
                     {Math.round(avgRating * 100)/100} </div>
                 </div>
             <div className="price-container">
-                <h4 className="price"> ${Math.round(price)}</h4>
-                <h5 className="night">night</h5>
+                <div className="price"> ${Math.round(price)}</div>
+                <div className="night">night</div>
             </div>
             </div>
         </div>

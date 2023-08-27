@@ -21,10 +21,12 @@
 }
 
 .card-info {
-    margin-top: 10px;
+    margin-top: 5px;
     display: flex;
     justify-content: space-between;
     height: 50%;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
 }
 
 .info-container {
@@ -36,8 +38,7 @@
 }
 
 .price-container {
-    height: 50%;
-    margin-top: 5px;
+    height: 30%;
     display: flex;
 }
 
